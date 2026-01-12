@@ -1,30 +1,30 @@
-import Link from "next/link";
+import StatCard from "@/components/dashboard/StatCard";
+import QuickAction from "@/components/dashboard/QuickAction";
 
 export default function DashboardPage() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* Header */}
+    <div className="d-flex flex-column gap-4">
       <div>
-        <h1 style={{ fontSize: 28, fontWeight: 600 }}>Dashboard</h1>
-        <p style={{ color: "#666", marginTop: 4 }}>
-          Overview of your HR management system
-        </p>
+        <h1 className="fw-semibold">Dashboard</h1>
+        <p className="text-muted mb-0">Overview of your HR management system</p>
       </div>
 
-      {/* Stats */}
-      <div style={{ display: "flex", gap: 16 }}>
-        <StatCard title="Total Employees" value="—" />
-        <StatCard title="Active Employees" value="—" />
-        <StatCard title="Open Contracts" value="—" />
+      <div className="row g-3">
+        <div className="col-md-4">
+          <StatCard title="Total Employees" value="—" />
+        </div>
+        <div className="col-md-4">
+          <StatCard title="Active Employees" value="—" />
+        </div>
+        <div className="col-md-4">
+          <StatCard title="Open Contracts" value="—" />
+        </div>
       </div>
 
-      {/* Quick Actions */}
       <div>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 12 }}>
-          Quick Actions
-        </h2>
+        <h5 className="fw-semibold mb-3">Quick Actions</h5>
 
-        <div style={{ display: "flex", gap: 16 }}>
+        <div className="d-flex gap-3">
           <QuickAction
             title="Employees"
             description="View and manage employee records"
@@ -38,50 +38,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-function StatCard({ title, value }: { title: string; value: string }) {
-  return (
-    <div
-      style={{
-        flex: 1,
-        padding: 16,
-        border: "1px solid #eee",
-        borderRadius: 8,
-      }}
-    >
-      <div style={{ fontSize: 14, color: "#666" }}>{title}</div>
-      <div style={{ fontSize: 24, fontWeight: 600, marginTop: 4 }}>{value}</div>
-    </div>
-  );
-}
-
-function QuickAction({
-  title,
-  description,
-  href,
-}: {
-  title: string;
-  description: string;
-  href: string;
-}) {
-  return (
-    <Link href={href} style={{ textDecoration: "none", color: "inherit" }}>
-      <div
-        style={{
-          padding: 16,
-          border: "1px solid #eee",
-          borderRadius: 8,
-          width: 260,
-          cursor: "pointer",
-        }}
-      >
-        <h3 style={{ fontSize: 16, fontWeight: 600 }}>{title}</h3>
-        <p style={{ fontSize: 14, color: "#666", marginTop: 4 }}>
-          {description}
-        </p>
-      </div>
-    </Link>
   );
 }
