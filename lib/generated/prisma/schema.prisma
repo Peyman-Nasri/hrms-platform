@@ -6,8 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -27,17 +27,17 @@ model Contract {
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 
-  employee   Employee       @relation(fields: [employeeId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
 }
 
 model Employee {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   firstName    String
   lastName     String
-  email        String   @unique
-  status       String   @default("ACTIVE")
+  email        String     @unique
+  status       String     @default("ACTIVE")
   workLocation String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   contracts    Contract[]
 }
