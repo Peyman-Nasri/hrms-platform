@@ -1,31 +1,27 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 export type Employee = {
   id: string;
   firstName: string;
   lastName: string;
-  status: "ACTIVE" | "INACTIVE";
-  workLocation: string;
+  email: string;
+  status: "ACTIVE" | "INACTIVE" | string;
+  workLocation: string | null;
 };
-
-export type EmployeesResponse = {
-  data: Employee[];
-};
-
-async function getEmployees(): Promise<EmployeesResponse> {
-  const res = await fetch("http://localhost:3000/api/employees", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch employees");
-  }
-
-  return res.json();
-}
 
 export default async function EmployeesPage() {
-  const { data } = await getEmployees();
+  const employees: Employee[] = await prisma.employee.findMany({
+    orderBy: { lastName: "asc" },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      status: true,
+      email: true,
+      workLocation: true,
+    },
+  });
 
   return (
     <div>
@@ -36,13 +32,14 @@ export default async function EmployeesPage() {
           <thead className="table-light">
             <tr>
               <th>Name</th>
+              <th>Email</th>
               <th>Status</th>
               <th>Work Location</th>
             </tr>
           </thead>
 
           <tbody>
-            {data.map((e) => (
+            {employees.map((e) => (
               <tr key={e.id}>
                 <td>
                   <Link
@@ -52,6 +49,7 @@ export default async function EmployeesPage() {
                     {e.firstName} {e.lastName}
                   </Link>
                 </td>
+                <td>{e.email}</td>
 
                 <td>
                   <span
@@ -63,7 +61,7 @@ export default async function EmployeesPage() {
                   </span>
                 </td>
 
-                <td>{e.workLocation}</td>
+                <td>{e.workLocation ?? "—"}</td>
               </tr>
             ))}
           </tbody>
