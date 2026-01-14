@@ -1,7 +1,14 @@
 import StatCard from "@/components/dashboard/StatCard";
 import QuickAction from "@/components/dashboard/QuickAction";
+import { prisma } from "@/lib/prisma";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const [totalEmployees, activeEmployees, openContracts] = await Promise.all([
+    prisma.employee.count(),
+    prisma.employee.count({ where: { status: "ACTIVE" } }),
+    prisma.contract?.count({ where: { status: "OPEN" } }) ?? Promise.resolve(0),
+  ]);
+
   return (
     <div className="d-flex flex-column gap-4">
       <div>
@@ -11,13 +18,13 @@ export default function DashboardPage() {
 
       <div className="row g-3">
         <div className="col-md-4">
-          <StatCard title="Total Employees" value="32" />
+          <StatCard title="Total Employees" value={String(totalEmployees)} />
         </div>
         <div className="col-md-4">
-          <StatCard title="Active Employees" value="28" />
+          <StatCard title="Active Employees" value={String(activeEmployees)} />
         </div>
         <div className="col-md-4">
-          <StatCard title="Open Contracts" value="4" />
+          <StatCard title="Open Contracts" value={String(openContracts)} />
         </div>
       </div>
 
