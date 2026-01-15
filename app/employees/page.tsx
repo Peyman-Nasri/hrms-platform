@@ -1,27 +1,11 @@
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export type Employee = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  status: "ACTIVE" | "INACTIVE" | string;
-  workLocation: string | null;
-};
+import Link from "next/link";
+import { list } from "@/server/employees/employees.service";
 
 export default async function EmployeesPage() {
-  const employees: Employee[] = await prisma.employee.findMany({
-    orderBy: { lastName: "asc" },
-    select: {
-      id: true,
-      firstName: true,
-      lastName: true,
-      status: true,
-      email: true,
-      workLocation: true,
-    },
-  });
+  const employees = await list();
 
   return (
     <div>
@@ -35,6 +19,7 @@ export default async function EmployeesPage() {
               <th>Email</th>
               <th>Status</th>
               <th>Work Location</th>
+              <th>Created</th>
             </tr>
           </thead>
 
@@ -49,6 +34,7 @@ export default async function EmployeesPage() {
                     {e.firstName} {e.lastName}
                   </Link>
                 </td>
+
                 <td>{e.email}</td>
 
                 <td>
@@ -62,6 +48,10 @@ export default async function EmployeesPage() {
                 </td>
 
                 <td>{e.workLocation ?? "—"}</td>
+
+                <td className="text-muted small">
+                  {new Date(e.createdAt).toLocaleDateString()}
+                </td>
               </tr>
             ))}
           </tbody>
