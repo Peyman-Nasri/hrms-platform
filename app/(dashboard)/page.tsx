@@ -38,9 +38,14 @@ export default async function DashboardPage() {
             href="/employees"
           />
           <QuickAction
-            title="Reports"
-            description="Review time and salary reports"
-            href="#"
+            title="Time Reports"
+            description="Review employee time reports"
+            href="/reports/time"
+          />
+          <QuickAction
+            title="Salary Reports"
+            description="Review employee salary reports"
+            href="/reports/salary"
           />
         </div>
       </div>

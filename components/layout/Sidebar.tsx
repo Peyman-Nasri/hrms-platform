@@ -2,37 +2,92 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import styles from "./Sidebar.module.css";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleCollapsed = () => setCollapsed((prev) => !prev);
+
+  const dashboardActive = pathname === "/";
+  const employeesActive = pathname.startsWith("/employees");
+  const timeReportsActive = pathname.startsWith("/reports/time");
+  const salaryReportsActive = pathname.startsWith("/reports/salary");
 
   return (
-    <aside className="border-end p-3 bg-white" style={{ width: 260 }}>
-      <div className="fw-bold fs-4 mb-3">
-        <i className="bi bi-people-fill me-2 text-primary" />
-        HRMS
+    <aside
+      className={`border-end bg-white d-flex flex-column ${
+        collapsed ? styles.sidebarCollapsed : styles.sidebarExpanded
+      }`}
+    >
+      <div className="p-3 pb-2 d-flex align-items-center justify-content-between">
+        {!collapsed && (
+          <div className="d-flex align-items-center">
+            <i className="bi bi-people-fill me-2 text-primary fs-4" />
+            <span className="fw-bold fs-4">HRMS</span>
+          </div>
+        )}
+
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-secondary rounded-circle"
+          onClick={toggleCollapsed}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <i
+            className={`bi ${
+              collapsed ? "bi-chevron-right" : "bi-chevron-left"
+            }`}
+          />
+        </button>
       </div>
 
-      <hr className={styles.sidebarSeparatorFull} />
+      {!collapsed && <hr className={styles.sidebarSeparatorFull} />}
 
-      <nav className="nav flex-column gap-1 mt-2">
+      <nav className="nav flex-column mt-2 px-2 pb-3 gap-1 flex-grow-1">
         <Link
           href="/"
-          className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
+          className={`${styles.link} ${dashboardActive ? styles.active : ""} ${
+            collapsed ? styles.linkCollapsed : ""
+          }`}
+          title="Dashboard"
         >
           <i className="bi bi-speedometer2 fs-5" />
-          <span>Dashboard</span>
+          {!collapsed && <span>Dashboard</span>}
         </Link>
 
         <Link
           href="/employees"
-          className={`${styles.link} ${
-            pathname.startsWith("/employees") ? styles.active : ""
+          className={`${styles.link} ${employeesActive ? styles.active : ""} ${
+            collapsed ? styles.linkCollapsed : ""
           }`}
+          title="Employees"
         >
           <i className="bi bi-people fs-5" />
-          <span>Employees</span>
+          {!collapsed && <span>Employees</span>}
+        </Link>
+        <Link
+          href="/reports/time"
+          className={`${styles.link} ${
+            timeReportsActive ? styles.active : ""
+          } ${collapsed ? styles.linkCollapsed : ""}`}
+          title="Time Reports"
+        >
+          <i className="bi bi-clock-history fs-5" />
+          {!collapsed && <span>Time Reports</span>}
+        </Link>
+
+        <Link
+          href="/reports/salary"
+          className={`${styles.link} ${
+            salaryReportsActive ? styles.active : ""
+          } ${collapsed ? styles.linkCollapsed : ""}`}
+          title="Salary Reports"
+        >
+          <i className="bi bi-cash-stack fs-5" />
+          {!collapsed && <span>Salary Reports</span>}
         </Link>
       </nav>
     </aside>
