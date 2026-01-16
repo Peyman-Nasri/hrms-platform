@@ -4,9 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styles from "./Sidebar.module.css";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { status } = useSession();
+
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCollapsed = () => setCollapsed((prev) => !prev);
@@ -15,6 +19,10 @@ export default function Sidebar() {
   const employeesActive = pathname.startsWith("/employees");
   const timeReportsActive = pathname.startsWith("/reports/time");
   const salaryReportsActive = pathname.startsWith("/reports/salary");
+
+  if (status === "unauthenticated" || pathname === "/login") {
+    return null;
+  }
 
   return (
     <aside
@@ -90,6 +98,17 @@ export default function Sidebar() {
           {!collapsed && <span>Salary Reports</span>}
         </Link>
       </nav>
+      <div className="mt-auto px-2 pb-3">
+        <button
+          onClick={() => signOut({ callbackUrl: "/login" })}
+          className={`btn w-100 d-flex align-items-center gap-2 ${
+            collapsed ? "justify-content-center" : "justify-content-start"
+          } btn-outline-danger`}
+        >
+          <i className="bi bi-box-arrow-right fs-5"></i>
+          {!collapsed && <span>Logout</span>}
+        </button>
+      </div>
     </aside>
   );
 }
