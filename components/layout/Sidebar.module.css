@@ -1,0 +1,32 @@
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  color: #212529;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
+}
+
+.link:hover {
+  background-color: #f1f3f5;
+}
+
+.active {
+  background-color: #e7f1ff;
+  color: #0d6efd;
+}
+
+.active i {
+  color: #0d6efd;
+}
+
+.sidebarSeparatorFull {
+  margin: 0;
+  margin-bottom: 0.75rem;
+  border: none;
+  border-top: 1px solid #ccc;
+  opacity: 1;
+}
