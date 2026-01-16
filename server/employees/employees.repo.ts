@@ -13,8 +13,8 @@ export function getEmployeeById(
   args?: Omit<Prisma.EmployeeFindUniqueArgs, "where">
 ) {
   return prisma.employee.findUnique({
+    ...(args ?? {}),
     where: { id },
-    ...args,
   });
 }
 

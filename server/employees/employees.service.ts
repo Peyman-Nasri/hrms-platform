@@ -18,7 +18,9 @@ export async function list() {
   });
 }
 
-export async function getById(id: string) {
+export async function getById(id: string | undefined) {
+  if (!id) return null;
+
   return repo.getEmployeeById(id, {
     include: { contracts: true },
   });
