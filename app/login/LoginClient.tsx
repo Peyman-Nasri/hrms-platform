@@ -87,8 +87,9 @@ export default function LoginClient() {
           </form>
 
           <p className="text-muted small mt-3 mb-0 text-center">
-            Use the credentials from <code>.env</code>:<br />
-            <code>ADMIN_EMAIL</code> / <code>ADMIN_PASSWORD</code>
+            Use these credentials:
+            <br />
+            <code>admin@email.com</code> / <code>AdminPassword</code>
           </p>
         </div>
       </div>
