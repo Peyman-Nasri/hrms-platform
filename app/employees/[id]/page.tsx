@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default async function EmployeeDetailPage({ params }: Props) {
-  const { id } = await params; // ⬅️ IMPORTANT: unwrap the Promise
+  const { id } = await params;
   const employee = await getById(id);
 
   if (!employee) {

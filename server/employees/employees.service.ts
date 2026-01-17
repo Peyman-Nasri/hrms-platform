@@ -41,7 +41,6 @@ export async function update(id: string, input: unknown) {
   const data = UpdateEmployeeSchema.parse(input);
   return repo.updateEmployee(id, {
     ...data,
-    // normalize empty strings if needed
     workLocation: data.workLocation === "" ? null : data.workLocation,
   });
 }

@@ -3,13 +3,14 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { list } from "@/server/employees/employees.service";
+import EmployeesHeader from "@/components/employees/EmployeeHeader";
 
 export default async function EmployeesPage() {
   const employees = await list();
 
   return (
     <div>
-      <h1 className="mb-4">Employees</h1>
+      <EmployeesHeader />
 
       <div className="table-responsive">
         <table className="table table-hover align-middle">
