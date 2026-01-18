@@ -110,10 +110,24 @@ export default function EmployeesHeader() {
 
   return (
     <>
-      <div className="d-flex align-items-center justify-content-between mb-3">
+      {/* Desktop / tablet header */}
+      <div className="d-none d-md-flex align-items-center justify-content-between mb-3">
         <h1 className="mb-0">Employees</h1>
 
         <button type="button" className="btn btn-primary" onClick={toggleForm}>
+          {showForm ? "Cancel" : "New Employee"}
+        </button>
+      </div>
+
+      {/* Mobile header */}
+      <div className="d-flex d-md-none flex-column gap-2 mb-3">
+        <h1 className="mb-0">Employees</h1>
+
+        <button
+          type="button"
+          className="btn btn-primary w-100"
+          onClick={toggleForm}
+        >
           {showForm ? "Cancel" : "New Employee"}
         </button>
       </div>

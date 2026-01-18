@@ -4,6 +4,13 @@ import type { ReactNode } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import AuthProvider from "@/components/auth/AuthProvider";
 
+export const metadata = {
+  title: "HRMS Platform",
+  icons: {
+    icon: "/favicon.png",
+  },
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
