@@ -120,15 +120,16 @@ export default function EmployeesHeader() {
       </div>
 
       {/* Mobile header */}
-      <div className="d-flex d-md-none flex-column gap-2 mb-3">
+      <div className="d-flex d-md-none align-items-center justify-content-between mb-3">
         <h1 className="mb-0">Employees</h1>
 
         <button
           type="button"
-          className="btn btn-primary w-100"
+          className="btn btn-primary btn-sm d-flex align-items-center gap-1"
           onClick={toggleForm}
+          aria-label={showForm ? "Cancel" : "Add employee"}
         >
-          {showForm ? "Cancel" : "New Employee"}
+          <i className={`bi ${showForm ? "bi-x-lg" : "bi-plus-lg"}`} />
         </button>
       </div>
 
