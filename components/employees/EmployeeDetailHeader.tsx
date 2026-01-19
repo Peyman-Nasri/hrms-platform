@@ -11,18 +11,6 @@ export default function EmployeeDetailHeader({
 }: EmployeeDetailHeaderProps) {
   return (
     <>
-      {/* Desktop / tablet header */}
-      <div className="d-none d-md-flex align-items-center justify-content-between mb-4">
-        <h1 className="mb-0">
-          {firstName} {lastName}
-        </h1>
-
-        <Link href="/employees" className="btn btn-light border">
-          ← Back to Employees
-        </Link>
-      </div>
-
-      {/* Mobile header */}
       <div className="d-flex d-md-none align-items-center gap-3 mb-3">
         <Link
           href="/employees"
@@ -33,9 +21,19 @@ export default function EmployeeDetailHeader({
           <i className="bi bi-arrow-left" />
         </Link>
 
-        <h2 className="mb-0 fs-4 flex-grow-1 text-truncate">
+        <h2 className="mb-0 fs-4 text-truncate">
           {firstName} {lastName}
         </h2>
+      </div>
+
+      <div className="d-none d-md-flex align-items-center justify-content-between mb-4">
+        <h1 className="mb-0">
+          {firstName} {lastName}
+        </h1>
+
+        <Link href="/employees" className="btn btn-light border">
+          ← Back to Employees
+        </Link>
       </div>
     </>
   );

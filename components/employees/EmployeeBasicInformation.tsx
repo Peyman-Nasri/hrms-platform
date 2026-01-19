@@ -1,77 +1,246 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { UpdateEmployeeBasicSchema } from "@/server/employees/employees.schemas";
+
+type UpdateEmployeeBasicInput = z.infer<typeof UpdateEmployeeBasicSchema>;
+
 type EmployeeBasicInformationProps = {
+  id: string;
   email: string;
-  status: string;
-  workLocation?: string | null;
+  status: UpdateEmployeeBasicInput["status"];
+  workLocation?: UpdateEmployeeBasicInput["workLocation"] | null;
 };
 
 export default function EmployeeBasicInformation({
+  id,
   email,
-  status,
-  workLocation,
+  status: initialStatus,
+  workLocation: initialWorkLocation,
 }: EmployeeBasicInformationProps) {
+  const router = useRouter();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [status, setStatus] =
+    useState<UpdateEmployeeBasicInput["status"]>(initialStatus);
+  const [workLocation, setWorkLocation] = useState<
+    UpdateEmployeeBasicInput["workLocation"]
+  >(initialWorkLocation ?? "");
+
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const isActive = status === "ACTIVE";
 
+  function resetForm() {
+    setStatus(initialStatus);
+    setWorkLocation(initialWorkLocation ?? "");
+    setErrors({});
+    setError(null);
+  }
+
+  function validate() {
+    const result = UpdateEmployeeBasicSchema.safeParse({
+      status,
+      workLocation,
+    });
+
+    if (result.success) {
+      setErrors({});
+      return true;
+    }
+
+    const fieldErrors: Record<string, string> = {};
+    for (const issue of result.error.issues) {
+      const path = issue.path[0];
+      if (typeof path === "string" && !fieldErrors[path]) {
+        fieldErrors[path] = issue.message;
+      }
+    }
+    setErrors(fieldErrors);
+    return false;
+  }
+
+  async function handleSave(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setErrors({});
+
+    if (!validate()) return;
+
+    setSubmitting(true);
+
+    try {
+      const res = await fetch(`/api/employees/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          status,
+          workLocation,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.fieldErrors) {
+          setErrors(data.fieldErrors);
+        }
+        throw new Error(data.error || "Failed to update employee.");
+      }
+
+      setIsEditing(false);
+      setErrors({});
+      router.refresh();
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function handleCancel() {
+    resetForm();
+    setIsEditing(false);
+  }
+
   return (
-    <>
-      {/* Desktop / tablet layout */}
-      <div className="d-none d-md-block">
-        <div className="card mb-4">
-          <div className="card-body">
-            <h5 className="card-title mb-3">Basic Information</h5>
+    <div className="card mb-4">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h5 className="card-title mb-0">Basic Information</h5>
 
-            <div className="row">
-              <div className="col-md-4">
-                <strong>Email</strong>
-                <div>{email}</div>
-              </div>
+          {!isEditing && (
+            <>
+              {/* Desktop / tablet */}
+              <button
+                type="button"
+                className="btn btn-primary px-4 d-none d-md-inline-block"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit
+              </button>
 
-              <div className="col-md-4">
-                <strong>Status</strong>
-                <div>
-                  <span
-                    className={`badge ${isActive ? "bg-success" : "bg-secondary"}`}
-                  >
-                    {status}
-                  </span>
-                </div>
-              </div>
-
-              <div className="col-md-4">
-                <strong>Work Location</strong>
-                <div>{workLocation ?? "—"}</div>
-              </div>
-            </div>
-          </div>
+              {/* Mobile */}
+              <button
+                type="button"
+                className="btn btn-primary btn-sm d-inline-flex d-md-none align-items-center gap-1"
+                onClick={() => setIsEditing(true)}
+                aria-label="Edit"
+              >
+                <i className="bi bi-pencil-square"></i>
+              </button>
+            </>
+          )}
         </div>
-      </div>
 
-      {/* Mobile layout */}
-      <div className="d-block d-md-none">
-        <div className="card mb-3">
-          <div className="card-body">
-            <div className="mb-3">
+        <form onSubmit={handleSave}>
+          <div className="row">
+            <div className="col-12 col-md-4 mb-3">
               <strong>Email</strong>
               <div className="text-muted">{email}</div>
             </div>
 
-            <div className="mb-3">
+            <div className="col-12 col-md-4 mb-3">
               <strong>Status</strong>
               <div>
-                <span
-                  className={`badge ${isActive ? "bg-success" : "bg-secondary"}`}
-                >
-                  {status}
-                </span>
+                {isEditing ? (
+                  <>
+                    <select
+                      className={`form-select form-select-sm ${
+                        errors.status ? "is-invalid" : ""
+                      }`}
+                      value={status}
+                      onChange={(e) =>
+                        setStatus(
+                          e.target.value as UpdateEmployeeBasicInput["status"],
+                        )
+                      }
+                    >
+                      <option value="ACTIVE">ACTIVE</option>
+                      <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                    {errors.status && (
+                      <div className="invalid-feedback">{errors.status}</div>
+                    )}
+                  </>
+                ) : (
+                  <span
+                    className={`badge ${
+                      isActive ? "bg-success" : "bg-secondary"
+                    }`}
+                  >
+                    {status}
+                  </span>
+                )}
               </div>
             </div>
 
-            <div>
+            <div className="col-12 col-md-4 mb-3">
               <strong>Work Location</strong>
-              <div className="text-muted">{workLocation ?? "—"}</div>
+              <div>
+                {isEditing ? (
+                  <>
+                    <input
+                      className={`form-control form-control-sm ${
+                        errors.workLocation ? "is-invalid" : ""
+                      }`}
+                      value={workLocation ?? ""}
+                      onChange={(e) => {
+                        setWorkLocation(e.target.value);
+                        if (errors.workLocation) {
+                          setErrors((prev) => ({
+                            ...prev,
+                            workLocation: "",
+                          }));
+                        }
+                      }}
+                      placeholder="e.g. Stockholm"
+                    />
+                    {errors.workLocation && (
+                      <div className="invalid-feedback">
+                        {errors.workLocation}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-muted">{workLocation || "—"}</span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+
+          {error && (
+            <div className="alert alert-danger py-2 mb-0 mb-3">{error}</div>
+          )}
+
+          {isEditing && (
+            <div className="d-flex justify-content-end gap-2">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleCancel}
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="btn btn-success btn-sm"
+                disabled={submitting}
+              >
+                {submitting ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          )}
+        </form>
       </div>
-    </>
+    </div>
   );
 }

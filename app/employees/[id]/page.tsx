@@ -37,6 +37,7 @@ export default async function EmployeeDetailPage({ params }: Props) {
       />
 
       <EmployeeBasicInformation
+        id={employee.id}
         email={employee.email}
         status={employee.status}
         workLocation={employee.workLocation}

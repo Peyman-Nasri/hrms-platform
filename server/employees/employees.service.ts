@@ -1,6 +1,6 @@
 import {
   CreateEmployeeSchema,
-  UpdateEmployeeSchema,
+  UpdateEmployeeBasicSchema,
 } from "./employees.schemas";
 import * as repo from "./employees.repo";
 
@@ -38,10 +38,11 @@ export async function create(input: unknown) {
 }
 
 export async function update(id: string, input: unknown) {
-  const data = UpdateEmployeeSchema.parse(input);
+  const data = UpdateEmployeeBasicSchema.parse(input);
+
   return repo.updateEmployee(id, {
-    ...data,
-    workLocation: data.workLocation === "" ? null : data.workLocation,
+    status: data.status,
+    workLocation: data.workLocation === "" ? null : (data.workLocation ?? null),
   });
 }
 

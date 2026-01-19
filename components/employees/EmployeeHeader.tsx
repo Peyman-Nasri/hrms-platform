@@ -83,6 +83,11 @@ export default function EmployeesHeader() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
+
+        if (data?.fieldErrors && typeof data.fieldErrors === "object") {
+          setErrors(data.fieldErrors);
+        }
+
         throw new Error(
           data?.error || "Failed to create employee. Please try again.",
         );
@@ -110,24 +115,23 @@ export default function EmployeesHeader() {
 
   return (
     <>
-      {/* Desktop / tablet header */}
-      <div className="d-none d-md-flex align-items-center justify-content-between mb-3">
-        <h1 className="mb-0">Employees</h1>
-
-        <button type="button" className="btn btn-primary" onClick={toggleForm}>
-          {showForm ? "Cancel" : "New Employee"}
-        </button>
-      </div>
-
-      {/* Mobile header */}
-      <div className="d-flex d-md-none align-items-center justify-content-between mb-3">
+      <div className="d-flex align-items-center justify-content-between mb-3">
         <h1 className="mb-0">Employees</h1>
 
         <button
           type="button"
-          className="btn btn-primary btn-sm d-flex align-items-center gap-1"
+          className="btn btn-primary px-3 d-none d-md-inline-block"
+          onClick={toggleForm}
+        >
+          {showForm ? "Cancel" : "New Employee"}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-primary btn-sm d-inline-flex d-md-none align-items-center justify-content-center rounded-circle"
           onClick={toggleForm}
           aria-label={showForm ? "Cancel" : "Add employee"}
+          style={{ width: "34px", height: "34px" }}
         >
           <i className={`bi ${showForm ? "bi-x-lg" : "bi-plus-lg"}`} />
         </button>

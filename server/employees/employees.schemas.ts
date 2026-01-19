@@ -10,4 +10,11 @@ export const CreateEmployeeSchema = z.object({
   workLocation: z.string().min(3),
 });
 
-export const UpdateEmployeeSchema = CreateEmployeeSchema.partial();
+export const UpdateEmployeeBasicSchema = CreateEmployeeSchema.pick({
+  status: true,
+  workLocation: true,
+});
+
+export type UpdateEmployeeBasicInput = z.infer<
+  typeof UpdateEmployeeBasicSchema
+>;
