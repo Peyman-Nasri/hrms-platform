@@ -3,6 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import type { ReactNode } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import AuthProvider from "@/components/auth/AuthProvider";
+import { ToastProvider } from "@/components/toast/ToastContext";
 
 export const metadata = {
   title: "HRMS Platform",
@@ -16,10 +17,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          <div className="d-flex min-vh-100">
-            <Sidebar />
-            <main className="flex-grow-1 p-4 bg-light">{children}</main>
-          </div>
+          <ToastProvider>
+            <div className="d-flex min-vh-100">
+              <Sidebar />
+              <main className="flex-grow-1 p-4 bg-light">{children}</main>
+            </div>
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>
