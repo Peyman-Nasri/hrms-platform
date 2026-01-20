@@ -18,6 +18,8 @@ type EmployeesListProps = {
   total: number;
   totalPages: number;
   q?: string;
+  status?: "ACTIVE" | "INACTIVE";
+  workLocation?: string;
 };
 
 export default function EmployeesList({
@@ -27,13 +29,20 @@ export default function EmployeesList({
   total,
   totalPages,
   q,
+  status,
+  workLocation,
 }: EmployeesListProps) {
   const hasEmployees = employees.length > 0;
+
   const makeHref = (p: number) => {
     const params = new URLSearchParams();
     params.set("page", String(p));
     params.set("pageSize", String(pageSize));
-    if (q?.trim()) params.set("q", q.trim());
+    if (q && q.trim()) params.set("q", q.trim());
+    if (status) params.set("status", status);
+    if (workLocation && workLocation.trim())
+      params.set("workLocation", workLocation.trim());
+
     return `/employees?${params.toString()}`;
   };
 

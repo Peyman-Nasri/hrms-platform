@@ -5,31 +5,72 @@ import type { Prisma } from "@prisma/client";
 type ListEmployeesPaginatedOptions = {
   page?: number;
   pageSize?: number;
-  where?: Prisma.EmployeeWhereInput;
-  select?: Prisma.EmployeeSelect;
   q?: string;
+  status?: "ACTIVE" | "INACTIVE";
+  workLocation?: string;
+  select?: Prisma.EmployeeSelect;
 };
+
+export async function listDistinctWorkLocations(): Promise<string[]> {
+  const rows = await prisma.employee.findMany({
+    where: {
+      workLocation: {
+        not: null,
+      },
+    },
+    select: {
+      workLocation: true,
+    },
+    distinct: ["workLocation"],
+    orderBy: {
+      workLocation: "asc",
+    },
+  });
+
+  return rows.map((r) => r.workLocation).filter((loc): loc is string => !!loc);
+}
 
 export async function listEmployeesPaginated({
   page,
   pageSize,
   q,
+  status,
+  workLocation,
   select,
 }: ListEmployeesPaginatedOptions = {}) {
   const safePage = normalizePage(page);
   const safePageSize = normalizePageSize(pageSize);
 
   const query = q?.trim();
-  const where: Prisma.EmployeeWhereInput | undefined = query
-    ? {
-        OR: [
-          { firstName: { contains: query, mode: "insensitive" } },
-          { lastName: { contains: query, mode: "insensitive" } },
-          { email: { contains: query, mode: "insensitive" } },
-          { workLocation: { contains: query, mode: "insensitive" } },
-        ],
-      }
-    : undefined;
+  const workLocQuery = workLocation?.trim();
+
+  const andConditions: Prisma.EmployeeWhereInput[] = [];
+
+  if (status === "ACTIVE" || status === "INACTIVE") {
+    andConditions.push({ status });
+  }
+
+  if (workLocQuery) {
+    andConditions.push({
+      workLocation: {
+        contains: workLocQuery,
+        mode: "insensitive",
+      },
+    });
+  }
+
+  if (query) {
+    andConditions.push({
+      OR: [
+        { firstName: { contains: query, mode: "insensitive" } },
+        { lastName: { contains: query, mode: "insensitive" } },
+        { email: { contains: query, mode: "insensitive" } },
+        { workLocation: { contains: query, mode: "insensitive" } },
+      ],
+    });
+  }
+
+  const where = andConditions.length > 0 ? { AND: andConditions } : undefined;
 
   const [total, employees] = await Promise.all([
     prisma.employee.count({ where }),
@@ -43,7 +84,6 @@ export async function listEmployeesPaginated({
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / safePageSize));
-
   const finalPage = Math.min(safePage, totalPages);
 
   const data =
@@ -64,6 +104,8 @@ export async function listEmployeesPaginated({
     pageSize: safePageSize,
     totalPages,
     q: query ?? "",
+    status: status ?? "",
+    workLocation: workLocQuery ?? "",
   };
 }
 

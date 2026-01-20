@@ -1,15 +1,21 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-import { listPaginated } from "@/server/employees/employees.service";
+import {
+  getEmployeeFilterOptions,
+  listPaginated,
+} from "@/server/employees/employees.service";
 import EmployeesHeader from "@/components/employees/EmployeesHeader";
 import EmployeesList from "@/components/employees/EmployeesList";
 import SearchBar from "@/components/layout/SearchBar";
+import FilterSelect from "@/components/layout/FilterSection";
 
 type EmployeesPageSearchParams = {
   page?: string;
   pageSize?: string;
   q?: string;
+  status?: string;
+  workLocation?: string;
 };
 
 type EmployeesPageProps = {
@@ -25,19 +31,55 @@ export default async function EmployeesPage({
   const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
   const q = sp.q ?? "";
 
-  const {
-    data: employees,
-    total,
-    totalPages,
-    page,
-    pageSize,
-  } = await listPaginated(rawPage, rawPageSize, q);
+  const statusParam = sp.status;
+  const status =
+    statusParam === "ACTIVE" || statusParam === "INACTIVE"
+      ? statusParam
+      : undefined;
+
+  const workLocationParam = sp.workLocation ?? "";
+
+  const [
+    { data: employees, total, totalPages, page, pageSize },
+    filterOptions,
+  ] = await Promise.all([
+    listPaginated(rawPage, rawPageSize, q, status, workLocationParam),
+    getEmployeeFilterOptions(),
+  ]);
+
+  const workLocationOptions = filterOptions.workLocations.map((loc) => ({
+    label: loc,
+    value: loc,
+  }));
 
   return (
     <div>
       <EmployeesHeader />
 
-      <SearchBar paramKey="q" className="mb-3" />
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 mb-3">
+        <div className="flex-grow-1">
+          <SearchBar paramKey="q" />
+        </div>
+
+        <div className="d-flex flex-wrap gap-2 justify-content-md-end">
+          <FilterSelect
+            paramKey="status"
+            options={[
+              { label: "Active", value: "ACTIVE" },
+              { label: "Inactive", value: "INACTIVE" },
+            ]}
+            emptyLabel="All statuses"
+            allowEmpty
+          />
+
+          <FilterSelect
+            paramKey="workLocation"
+            options={workLocationOptions}
+            emptyLabel="All locations"
+            allowEmpty
+          />
+        </div>
+      </div>
 
       <EmployeesList
         employees={employees}
@@ -46,6 +88,8 @@ export default async function EmployeesPage({
         total={total}
         totalPages={totalPages}
         q={q}
+        status={status}
+        workLocation={workLocationParam}
       />
     </div>
   );

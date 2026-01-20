@@ -3,17 +3,32 @@ import {
   UpdateEmployeeBasicSchema,
 } from "./employees.schemas";
 import * as repo from "./employees.repo";
-import { listEmployeesPaginated } from "./employees.repo";
+import {
+  listDistinctWorkLocations,
+  listEmployeesPaginated,
+} from "./employees.repo";
+
+export async function getEmployeeFilterOptions() {
+  const workLocations = await listDistinctWorkLocations();
+
+  return {
+    workLocations,
+  };
+}
 
 export async function listPaginated(
   page?: number,
   pageSize?: number,
   q?: string,
+  status?: "ACTIVE" | "INACTIVE",
+  workLocation?: string,
 ) {
   return listEmployeesPaginated({
     page,
     pageSize,
     q,
+    status,
+    workLocation,
     select: {
       id: true,
       firstName: true,
