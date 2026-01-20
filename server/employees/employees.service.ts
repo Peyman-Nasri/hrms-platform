@@ -4,6 +4,22 @@ import {
 } from "./employees.schemas";
 import * as repo from "./employees.repo";
 
+export async function listPaginated(page = 1, pageSize = 10) {
+  return repo.listEmployeesPaginated({
+    page,
+    pageSize,
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      status: true,
+      workLocation: true,
+      createdAt: true,
+    },
+  });
+}
+
 export async function list() {
   return repo.listEmployees({
     select: {

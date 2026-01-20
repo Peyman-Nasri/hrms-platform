@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PaginationSummary from "../layout/PaginationSummary";
 
 type EmployeeListItem = {
   id: string;
@@ -12,9 +13,21 @@ type EmployeeListItem = {
 
 type EmployeesListProps = {
   employees: EmployeeListItem[];
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
 };
 
-export default function EmployeesList({ employees }: EmployeesListProps) {
+export default function EmployeesList({
+  employees,
+  page,
+  pageSize,
+  total,
+  totalPages,
+}: EmployeesListProps) {
+  const hasEmployees = employees.length > 0;
+
   return (
     <>
       {/* ===== Desktop / Tablet (md and up) ===== */}
@@ -32,36 +45,44 @@ export default function EmployeesList({ employees }: EmployeesListProps) {
             </thead>
 
             <tbody>
-              {employees.map((e) => (
-                <tr key={e.id}>
-                  <td>
-                    <Link
-                      href={`/employees/${e.id}`}
-                      className="text-decoration-none fw-medium text-dark"
-                    >
-                      {e.firstName} {e.lastName}
-                    </Link>
-                  </td>
+              {hasEmployees ? (
+                employees.map((e) => (
+                  <tr key={e.id}>
+                    <td>
+                      <Link
+                        href={`/employees/${e.id}`}
+                        className="text-decoration-none fw-medium text-dark"
+                      >
+                        {e.firstName} {e.lastName}
+                      </Link>
+                    </td>
 
-                  <td>{e.email}</td>
+                    <td>{e.email}</td>
 
-                  <td>
-                    <span
-                      className={`badge ${
-                        e.status === "ACTIVE" ? "bg-success" : "bg-secondary"
-                      }`}
-                    >
-                      {e.status}
-                    </span>
-                  </td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          e.status === "ACTIVE" ? "bg-success" : "bg-secondary"
+                        }`}
+                      >
+                        {e.status}
+                      </span>
+                    </td>
 
-                  <td>{e.workLocation ?? "—"}</td>
+                    <td>{e.workLocation ?? "—"}</td>
 
-                  <td className="text-muted small">
-                    {new Date(e.createdAt).toLocaleDateString()}
+                    <td className="text-muted small">
+                      {new Date(e.createdAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="text-center text-muted py-4">
+                    No employees found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -70,39 +91,54 @@ export default function EmployeesList({ employees }: EmployeesListProps) {
       {/* ===== Mobile (< md) ===== */}
       <div className="d-block d-md-none">
         <div className="d-flex flex-column gap-3 mt-3">
-          {employees.map((e) => (
-            <Link
-              key={e.id}
-              href={`/employees/${e.id}`}
-              className="card p-3 text-decoration-none text-dark"
-            >
-              <div className="fw-semibold">
-                {e.firstName} {e.lastName}
-              </div>
+          {hasEmployees ? (
+            employees.map((e) => (
+              <Link
+                key={e.id}
+                href={`/employees/${e.id}`}
+                className="card p-3 text-decoration-none text-dark"
+              >
+                <div className="fw-semibold">
+                  {e.firstName} {e.lastName}
+                </div>
 
-              <div className="text-muted small">{e.email}</div>
+                <div className="text-muted small">{e.email}</div>
 
-              <div className="d-flex align-items-center gap-2 mt-2">
-                <span
-                  className={`badge ${
-                    e.status === "ACTIVE" ? "bg-success" : "bg-secondary"
-                  }`}
-                >
-                  {e.status}
-                </span>
+                <div className="d-flex align-items-center gap-2 mt-2">
+                  <span
+                    className={`badge ${
+                      e.status === "ACTIVE" ? "bg-success" : "bg-secondary"
+                    }`}
+                  >
+                    {e.status}
+                  </span>
 
-                <span className="text-muted small">
-                  {e.workLocation ?? "—"}
-                </span>
-              </div>
+                  <span className="text-muted small">
+                    {e.workLocation ?? "—"}
+                  </span>
+                </div>
 
-              <div className="text-muted small mt-1">
-                Created: {new Date(e.createdAt).toLocaleDateString()}
-              </div>
-            </Link>
-          ))}
+                <div className="text-muted small mt-1">
+                  Created: {new Date(e.createdAt).toLocaleDateString()}
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="text-center text-muted py-4">
+              No employees found.
+            </div>
+          )}
         </div>
       </div>
+
+      <PaginationSummary
+        page={page}
+        pageSize={pageSize}
+        total={total}
+        totalPages={totalPages}
+        itemLabel="employees"
+        makeHref={(p) => `/employees?page=${p}&pageSize=${pageSize}`}
+      />
     </>
   );
 }

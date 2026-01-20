@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import LogoutConfirmModal from "./logoutConfirm";
+import LogoutConfirmModal from "./LogoutConfirm";
 
 export default function Sidebar() {
   const pathname = usePathname();
