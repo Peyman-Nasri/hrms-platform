@@ -26,11 +26,7 @@ export default function PaginationSummary({
   const isLast = page >= totalPages;
 
   if (total === 0) {
-    return showSummary ? (
-      <div className="d-flex justify-content-center mt-3">
-        <div className="text-muted small">No {itemLabel} to display.</div>
-      </div>
-    ) : null;
+    return null;
   }
 
   return (

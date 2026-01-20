@@ -7,16 +7,29 @@ type ListEmployeesPaginatedOptions = {
   pageSize?: number;
   where?: Prisma.EmployeeWhereInput;
   select?: Prisma.EmployeeSelect;
+  q?: string;
 };
 
 export async function listEmployeesPaginated({
   page,
   pageSize,
-  where,
+  q,
   select,
 }: ListEmployeesPaginatedOptions = {}) {
   const safePage = normalizePage(page);
   const safePageSize = normalizePageSize(pageSize);
+
+  const query = q?.trim();
+  const where: Prisma.EmployeeWhereInput | undefined = query
+    ? {
+        OR: [
+          { firstName: { contains: query, mode: "insensitive" } },
+          { lastName: { contains: query, mode: "insensitive" } },
+          { email: { contains: query, mode: "insensitive" } },
+          { workLocation: { contains: query, mode: "insensitive" } },
+        ],
+      }
+    : undefined;
 
   const [total, employees] = await Promise.all([
     prisma.employee.count({ where }),
@@ -31,12 +44,26 @@ export async function listEmployeesPaginated({
 
   const totalPages = Math.max(1, Math.ceil(total / safePageSize));
 
+  const finalPage = Math.min(safePage, totalPages);
+
+  const data =
+    finalPage === safePage
+      ? employees
+      : await prisma.employee.findMany({
+          where,
+          select,
+          orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
+          skip: (finalPage - 1) * safePageSize,
+          take: safePageSize,
+        });
+
   return {
-    data: employees,
+    data,
     total,
-    page: safePage,
+    page: finalPage,
     pageSize: safePageSize,
     totalPages,
+    q: query ?? "",
   };
 }
 

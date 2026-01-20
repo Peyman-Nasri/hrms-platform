@@ -4,10 +4,12 @@ export const dynamic = "force-dynamic";
 import { listPaginated } from "@/server/employees/employees.service";
 import EmployeesHeader from "@/components/employees/EmployeesHeader";
 import EmployeesList from "@/components/employees/EmployeesList";
+import SearchBar from "@/components/layout/SearchBar";
 
 type EmployeesPageSearchParams = {
   page?: string;
   pageSize?: string;
+  q?: string;
 };
 
 type EmployeesPageProps = {
@@ -17,13 +19,11 @@ type EmployeesPageProps = {
 export default async function EmployeesPage({
   searchParams,
 }: EmployeesPageProps) {
-  const resolvedSearchParams = await searchParams;
+  const sp = await searchParams;
 
-  const pageParam = resolvedSearchParams.page;
-  const pageSizeParam = resolvedSearchParams.pageSize;
-
-  const rawPage = pageParam ? Number(pageParam) : undefined;
-  const rawPageSize = pageSizeParam ? Number(pageSizeParam) : undefined;
+  const rawPage = sp.page ? Number(sp.page) : undefined;
+  const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
+  const q = sp.q ?? "";
 
   const {
     data: employees,
@@ -31,17 +31,21 @@ export default async function EmployeesPage({
     totalPages,
     page,
     pageSize,
-  } = await listPaginated(rawPage, rawPageSize);
+  } = await listPaginated(rawPage, rawPageSize, q);
 
   return (
     <div>
       <EmployeesHeader />
+
+      <SearchBar paramKey="q" className="mb-3" />
+
       <EmployeesList
         employees={employees}
         page={page}
         pageSize={pageSize}
         total={total}
         totalPages={totalPages}
+        q={q}
       />
     </div>
   );

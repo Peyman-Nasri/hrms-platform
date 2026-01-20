@@ -3,11 +3,17 @@ import {
   UpdateEmployeeBasicSchema,
 } from "./employees.schemas";
 import * as repo from "./employees.repo";
+import { listEmployeesPaginated } from "./employees.repo";
 
-export async function listPaginated(page = 1, pageSize = 10) {
-  return repo.listEmployeesPaginated({
+export async function listPaginated(
+  page?: number,
+  pageSize?: number,
+  q?: string,
+) {
+  return listEmployeesPaginated({
     page,
     pageSize,
+    q,
     select: {
       id: true,
       firstName: true,

@@ -17,6 +17,7 @@ type EmployeesListProps = {
   pageSize: number;
   total: number;
   totalPages: number;
+  q?: string;
 };
 
 export default function EmployeesList({
@@ -25,8 +26,16 @@ export default function EmployeesList({
   pageSize,
   total,
   totalPages,
+  q,
 }: EmployeesListProps) {
   const hasEmployees = employees.length > 0;
+  const makeHref = (p: number) => {
+    const params = new URLSearchParams();
+    params.set("page", String(p));
+    params.set("pageSize", String(pageSize));
+    if (q?.trim()) params.set("q", q.trim());
+    return `/employees?${params.toString()}`;
+  };
 
   return (
     <>
@@ -137,7 +146,7 @@ export default function EmployeesList({
         total={total}
         totalPages={totalPages}
         itemLabel="employees"
-        makeHref={(p) => `/employees?page=${p}&pageSize=${pageSize}`}
+        makeHref={makeHref}
       />
     </>
   );
