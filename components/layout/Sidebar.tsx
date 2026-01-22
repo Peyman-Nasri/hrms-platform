@@ -104,7 +104,7 @@ export default function Sidebar() {
             {!collapsed && <span>Employees</span>}
           </Link>
           <Link
-            href="/reports/time"
+            href="/time-reports"
             className={`${styles.link} ${
               timeReportsActive ? styles.active : ""
             } ${collapsed ? styles.linkCollapsed : ""}`}

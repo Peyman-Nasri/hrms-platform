@@ -16,6 +16,13 @@ enum ContractStatus {
   CLOSED
 }
 
+enum TimeReportStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
 model Employee {
   id           String         @id @default(cuid())
   firstName    String
@@ -27,18 +34,40 @@ model Employee {
   updatedAt    DateTime       @updatedAt
 
   contracts    Contract[]
+  timeReports  TimeReport[]
 }
 
 model Contract {
-  id         String         @id @default(cuid())
-  employeeId String
-  status     ContractStatus @default(OPEN)
-  startDate  DateTime
-  endDate    DateTime?
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  id          String         @id @default(cuid())
+  employeeId  String
+  status      ContractStatus @default(OPEN)
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
-  employee   Employee       @relation(fields: [employeeId], references: [id])
+  employee    Employee       @relation(fields: [employeeId], references: [id])
+  timeReports TimeReport[]
 
   @@index([employeeId])
 }
+
+model TimeReport {
+  id          String           @id @default(cuid())
+  employeeId  String
+  contractId  String?
+  date        DateTime
+  hours       Decimal        
+  description String?
+  status      TimeReportStatus @default(DRAFT)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  employee    Employee         @relation(fields: [employeeId], references: [id])
+  contract    Contract?        @relation(fields: [contractId], references: [id])
+
+  @@index([employeeId, date])
+  @@index([contractId])
+  @@unique([employeeId, date, contractId])
+}
+
