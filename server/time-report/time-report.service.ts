@@ -4,6 +4,14 @@ import {
 } from "./time-report.schema";
 import * as repo from "./time-report.repo";
 import { listTimeReportsPaginated } from "./time-report.repo";
+import { Prisma } from "@prisma/client";
+
+type TimeReportWithRelations = Prisma.TimeReportGetPayload<{
+  include: {
+    employee: true;
+    contract: true;
+  };
+}>;
 
 export async function listPaginated(
   page?: number,
@@ -65,7 +73,9 @@ export async function list() {
   });
 }
 
-export async function getById(id: string | undefined) {
+export async function getById(
+  id: string | undefined,
+): Promise<TimeReportWithRelations | null> {
   if (!id) return null;
 
   return repo.getTimeReportById(id, {
@@ -73,7 +83,7 @@ export async function getById(id: string | undefined) {
       employee: true,
       contract: true,
     },
-  });
+  }) as Promise<TimeReportWithRelations | null>;
 }
 
 export async function create(input: unknown) {
