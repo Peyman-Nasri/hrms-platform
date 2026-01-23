@@ -52,7 +52,6 @@ export default function TimeReportDetailHeader({
         </div>
 
         <div className="d-flex flex-column text-end">
-          <div className="text-muted mb-2">Date: {formattedDate}</div>
           <Link href="/time-reports" className="btn btn-light border">
             ← Back to Time Reports
           </Link>

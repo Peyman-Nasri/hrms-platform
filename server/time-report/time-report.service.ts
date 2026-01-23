@@ -17,6 +17,7 @@ export async function listPaginated(
   page?: number,
   pageSize?: number,
   employeeId?: string,
+  q?: string,
   status?: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED",
   dateFrom?: Date,
   dateTo?: Date,
@@ -28,6 +29,7 @@ export async function listPaginated(
     status,
     dateFrom,
     dateTo,
+    q,
     select: {
       id: true,
       employeeId: true,

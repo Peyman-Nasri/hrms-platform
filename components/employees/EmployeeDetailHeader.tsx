@@ -11,6 +11,7 @@ export default function EmployeeDetailHeader({
 }: EmployeeDetailHeaderProps) {
   return (
     <>
+      {/* ===== Mobile Header ===== */}
       <div className="d-flex d-md-none align-items-center gap-3 mb-3">
         <Link
           href="/employees"
@@ -26,6 +27,7 @@ export default function EmployeeDetailHeader({
         </h2>
       </div>
 
+      {/* ===== Desktop Header ===== */}
       <div className="d-none d-md-flex align-items-center justify-content-between mb-4">
         <h1 className="mb-0">
           {firstName} {lastName}

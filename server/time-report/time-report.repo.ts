@@ -12,6 +12,7 @@ type ListTimeReportsPaginatedOptions = {
   dateFrom?: Date;
   dateTo?: Date;
   select?: Prisma.TimeReportSelect;
+  q?: string;
 };
 
 export async function listTimeReportsPaginated({
@@ -21,10 +22,12 @@ export async function listTimeReportsPaginated({
   status,
   dateFrom,
   dateTo,
+  q,
   select,
 }: ListTimeReportsPaginatedOptions = {}) {
   const safePage = normalizePage(page);
   const safePageSize = normalizePageSize(pageSize);
+  const query = q?.trim();
 
   const andConditions: Prisma.TimeReportWhereInput[] = [];
 
@@ -42,6 +45,16 @@ export async function listTimeReportsPaginated({
         ...(dateFrom ? { gte: dateFrom } : {}),
         ...(dateTo ? { lte: dateTo } : {}),
       },
+    });
+  }
+
+  if (query) {
+    andConditions.push({
+      OR: [
+        { employee: { firstName: { contains: query, mode: "insensitive" } } },
+        { employee: { lastName: { contains: query, mode: "insensitive" } } },
+        { employee: { email: { contains: query, mode: "insensitive" } } },
+      ],
     });
   }
 
@@ -78,6 +91,7 @@ export async function listTimeReportsPaginated({
     page: finalPage,
     pageSize: safePageSize,
     totalPages,
+    q: query ?? "",
     employeeId: employeeId ?? "",
     status: status ?? "",
     dateFrom: dateFrom ?? null,

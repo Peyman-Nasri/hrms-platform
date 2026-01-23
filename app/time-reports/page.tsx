@@ -6,12 +6,14 @@ import TimeReportsHeader from "@/components/time-reports/TimeReportsHeader";
 import TimeReportsList from "@/components/time-reports/TimeReportsList";
 import FilterSelect from "@/components/layout/FilterSection";
 import { Prisma } from "@prisma/client";
+import SearchBar from "@/components/layout/SearchBar";
 
 type TimeReportsPageSearchParams = {
   page?: string;
   pageSize?: string;
   status?: string;
   employeeId?: string;
+  q?: string;
 };
 
 type TimeReportsPageProps = {
@@ -25,6 +27,7 @@ export default async function TimeReportsPage({
 
   const rawPage = sp.page ? Number(sp.page) : undefined;
   const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
+  const q = sp.q ?? "";
 
   const statusParam = sp.status;
   const status =
@@ -43,7 +46,7 @@ export default async function TimeReportsPage({
     totalPages,
     page,
     pageSize,
-  } = await listPaginated(rawPage, rawPageSize, employeeId, status);
+  } = await listPaginated(rawPage, rawPageSize, employeeId, q, status);
 
   const timeReports = timeReportsRaw.map((r) => ({
     ...r,
@@ -62,13 +65,19 @@ export default async function TimeReportsPage({
     <div>
       <TimeReportsHeader />
 
-      <div className="d-flex flex-wrap gap-2 justify-content-md-end mb-3">
-        <FilterSelect
-          paramKey="status"
-          options={statusOptions}
-          emptyLabel="All statuses"
-          allowEmpty
-        />
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 mb-3">
+        <div className="flex-grow-1">
+          <SearchBar paramKey="q" />
+        </div>
+
+        <div className="d-flex flex-wrap gap-2 justify-content-md-end">
+          <FilterSelect
+            paramKey="status"
+            options={statusOptions}
+            emptyLabel="All statuses"
+            allowEmpty
+          />
+        </div>
       </div>
 
       <TimeReportsList
