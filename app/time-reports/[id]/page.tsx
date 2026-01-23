@@ -41,11 +41,7 @@ export default async function TimeReportDetailPage({ params }: Props) {
 
   return (
     <div>
-      <TimeReportDetailHeader
-        employeeName={employeeName}
-        date={timeReport.date}
-        status={timeReport.status}
-      />
+      <TimeReportDetailHeader employeeName={employeeName} />
 
       <TimeReportBasicInformation
         id={timeReport.id}
