@@ -15,7 +15,6 @@ type TimeReportBasicInformationProps = {
   date: Date;
   hours: number;
   description?: string | null;
-  contractId?: string | null;
 };
 
 export default function TimeReportBasicInformation({
@@ -26,7 +25,6 @@ export default function TimeReportBasicInformation({
   date,
   hours,
   description,
-  contractId,
 }: TimeReportBasicInformationProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -41,7 +39,6 @@ export default function TimeReportBasicInformation({
           initialDate={date}
           initialHours={hours}
           initialDescription={description ?? ""}
-          contractId={contractId ?? null}
           isEditing={isEditing}
           onStartEdit={() => setIsEditing(true)}
           onStopEdit={() => setIsEditing(false)}

@@ -250,7 +250,7 @@ export default function TimeReportCreateForm({
                   setErrors((p) => ({ ...p, description: "" }));
               }}
               rows={2}
-              placeholder="What did you work on?"
+              placeholder="What did they work on?"
             />
             {errors.description && (
               <div className="invalid-feedback">{errors.description}</div>

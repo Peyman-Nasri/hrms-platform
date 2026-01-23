@@ -55,7 +55,6 @@ export default async function TimeReportDetailPage({ params }: Props) {
         date={timeReport.date}
         hours={hours}
         description={timeReport.description}
-        contractId={timeReport.contractId}
       />
     </div>
   );

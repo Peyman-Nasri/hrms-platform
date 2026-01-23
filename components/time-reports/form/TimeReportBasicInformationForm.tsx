@@ -16,7 +16,6 @@ type TimeReportBasicInformationFormProps = {
   initialDate: Date;
   initialHours: number;
   initialDescription: string;
-  contractId: string | null;
   isEditing: boolean;
   onStartEdit: () => void;
   onStopEdit: () => void;
@@ -30,7 +29,6 @@ export default function TimeReportBasicInformationForm({
   initialDate,
   initialHours,
   initialDescription,
-  contractId,
   isEditing,
   onStartEdit,
   onStopEdit,
@@ -270,12 +268,7 @@ export default function TimeReportBasicInformationForm({
             </div>
           </div>
 
-          <div className="col-12 col-md-4 mb-3">
-            <strong>Contract</strong>
-            <div className="text-muted">{contractId ? contractId : "—"}</div>
-          </div>
-
-          <div className="col-12 mb-3">
+          <div className="col-12 col-md-8 mb-3">
             <strong>Description</strong>
             <div>
               {isEditing ? (
@@ -292,7 +285,7 @@ export default function TimeReportBasicInformationForm({
                         setErrors((prev) => ({ ...prev, description: "" }));
                       }
                     }}
-                    placeholder="What did you work on?"
+                    placeholder="What did they work on?"
                   />
                   {errors.description && (
                     <div className="invalid-feedback">{errors.description}</div>
