@@ -1,14 +1,13 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-import { listPaginated } from "@/server/time-report/time-report.service";
-import TimeReportsHeader from "@/components/time-reports/TimeReportsHeader";
-import TimeReportsList from "@/components/time-reports/TimeReportsList";
+import { listPaginated } from "@/server/contracts/contracts.service";
 import FilterSelect from "@/components/layout/FilterSection";
-import { Prisma } from "@prisma/client";
 import SearchBar from "@/components/layout/SearchBar";
+import ContractsHeader from "@/components/contracts/ContractsHeader";
+import ContractsList from "@/components/contracts/ContractsList";
 
-type TimeReportsPageSearchParams = {
+type ContractsPageSearchParams = {
   page?: string;
   pageSize?: string;
   status?: string;
@@ -16,13 +15,13 @@ type TimeReportsPageSearchParams = {
   q?: string;
 };
 
-type TimeReportsPageProps = {
-  searchParams: Promise<TimeReportsPageSearchParams>;
+type ContractsPageProps = {
+  searchParams: Promise<ContractsPageSearchParams>;
 };
 
-export default async function TimeReportsPage({
+export default async function ContractsPage({
   searchParams,
-}: TimeReportsPageProps) {
+}: ContractsPageProps) {
   const sp = await searchParams;
 
   const rawPage = sp.page ? Number(sp.page) : undefined;
@@ -31,39 +30,28 @@ export default async function TimeReportsPage({
 
   const statusParam = sp.status;
   const status =
-    statusParam === "DRAFT" ||
-    statusParam === "SUBMITTED" ||
-    statusParam === "APPROVED" ||
-    statusParam === "REJECTED"
+    statusParam === "OPEN" || statusParam === "CLOSED"
       ? statusParam
       : undefined;
 
   const employeeId = sp.employeeId || undefined;
 
   const {
-    data: timeReportsRaw,
+    data: contracts,
     total,
     totalPages,
     page,
     pageSize,
   } = await listPaginated(rawPage, rawPageSize, employeeId, q, status);
 
-  const timeReports = timeReportsRaw.map((r) => ({
-    ...r,
-    hours:
-      r.hours instanceof Prisma.Decimal ? r.hours.toNumber() : Number(r.hours),
-  }));
-
   const statusOptions = [
-    { label: "Draft", value: "DRAFT" },
-    { label: "Submitted", value: "SUBMITTED" },
-    { label: "Approved", value: "APPROVED" },
-    { label: "Rejected", value: "REJECTED" },
+    { label: "Open", value: "OPEN" },
+    { label: "Closed", value: "CLOSED" },
   ];
 
   return (
     <div>
-      <TimeReportsHeader />
+      <ContractsHeader />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 mb-3">
         <div className="flex-grow-1">
@@ -80,8 +68,8 @@ export default async function TimeReportsPage({
         </div>
       </div>
 
-      <TimeReportsList
-        timeReports={timeReports}
+      <ContractsList
+        contracts={contracts}
         page={page}
         pageSize={pageSize}
         total={total}

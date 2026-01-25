@@ -68,14 +68,14 @@ export default async function EmployeesPage({
               { label: "Active", value: "ACTIVE" },
               { label: "Inactive", value: "INACTIVE" },
             ]}
-            emptyLabel="All statuses"
+            emptyLabel="All Statuses"
             allowEmpty
           />
 
           <FilterSelect
             paramKey="workLocation"
             options={workLocationOptions}
-            emptyLabel="All locations"
+            emptyLabel="All Locations"
             allowEmpty
           />
         </div>

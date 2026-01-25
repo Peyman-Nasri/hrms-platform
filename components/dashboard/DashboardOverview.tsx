@@ -41,9 +41,9 @@ export default function DashboardOverview({
             href="/time-reports"
           />
           <QuickAction
-            title="Salary Reports"
-            description="Review employee salary reports"
-            href="/reports/salary"
+            title="Contract Reports"
+            description="Review employee contract reports"
+            href="/contracts"
           />
         </div>
       </div>

@@ -1,5 +1,10 @@
 import * as contracts from "@/server/contracts/contracts.service";
 
+export async function GET() {
+  const data = await contracts.list();
+  return Response.json({ data });
+}
+
 export async function POST(req: Request) {
   const body = await req.json();
   const created = await contracts.create(body);

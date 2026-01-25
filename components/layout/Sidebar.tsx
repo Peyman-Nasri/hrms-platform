@@ -115,14 +115,14 @@ export default function Sidebar() {
           </Link>
 
           <Link
-            href="/reports/salary"
+            href="/contracts"
             className={`${styles.link} ${
               salaryReportsActive ? styles.active : ""
             } ${collapsed ? styles.linkCollapsed : ""}`}
-            title="Salary Reports"
+            title="Contract Reports"
           >
             <i className="bi bi-cash-stack fs-5" />
-            {!collapsed && <span>Salary Reports</span>}
+            {!collapsed && <span>Contract Reports</span>}
           </Link>
         </nav>
         <div className="mt-auto px-2 pb-3">
