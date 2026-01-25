@@ -5,7 +5,7 @@ Includes modules for employee management, time reporting, contract management, a
 
 🔗 Production URL
 
-[HRMS Platform](https://hrms-platform-sepia.vercel.app)
+[[HRMS Platform](https://hrms-platform-sepia.vercel.app)](https://hrms-platform-sepia.vercel.app)
 
 ## Getting Started
 
