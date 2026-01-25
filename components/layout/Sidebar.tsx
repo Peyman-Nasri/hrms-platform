@@ -70,6 +70,7 @@ export default function Sidebar() {
             className="btn btn-sm btn-outline-secondary rounded-circle"
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            style={{ marginLeft: 5 }}
           >
             <i
               className={`bi ${
