@@ -9,7 +9,7 @@ export const TimeReportStatusSchema = z.enum([
 
 export const CreateTimeReportSchema = z.object({
   employeeId: z.string().min(1),
-  contractId: z.string().min(1).optional().nullable(),
+  contractId: z.string().min(1),
   date: z.coerce.date(),
   hours: z.coerce.number().min(0).max(24),
   description: z.string().max(1000).optional().nullable(),

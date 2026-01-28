@@ -44,7 +44,7 @@ export default function TimeReportCreateForm({
   function validate() {
     const result = CreateTimeReportSchema.safeParse({
       employeeId,
-      contractId: contractId || null,
+      contractId,
       date,
       hours,
       description: description || null,
@@ -83,7 +83,7 @@ export default function TimeReportCreateForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           employeeId,
-          contractId: contractId || null,
+          contractId,
           date,
           hours,
           description: description || null,
@@ -149,7 +149,7 @@ export default function TimeReportCreateForm({
 
           <div className="col-md-4">
             <label className="form-label" htmlFor="contractId">
-              Contract ID (optional)
+              Contract ID
             </label>
             <input
               id="contractId"
