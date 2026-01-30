@@ -8,12 +8,21 @@ import { useToast } from "../../toast/ToastContext";
 
 type CreateContractInput = z.infer<typeof CreateContractSchema>;
 
+type EmployeeOption = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
 type ContractCreateFormProps = {
   onCreated: () => void;
+  employees: EmployeeOption[];
 };
 
 export default function ContractCreateForm({
   onCreated,
+  employees,
 }: ContractCreateFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
@@ -141,21 +150,26 @@ export default function ContractCreateForm({
 
           <div className="col-md-4">
             <label className="form-label" htmlFor="employeeId">
-              Employee ID
+              Employee
             </label>
-            <input
+            <select
               id="employeeId"
-              className={`form-control ${
-                errors.employeeId ? "is-invalid" : ""
-              }`}
+              className={`form-select ${errors.employeeId ? "is-invalid" : ""}`}
               value={employeeId}
               onChange={(e) => {
                 setEmployeeId(e.target.value);
-                if (errors.employeeId)
+                if (errors.employeeId) {
                   setErrors((p) => ({ ...p, employeeId: "" }));
+                }
               }}
-              placeholder="Employee ID"
-            />
+            >
+              <option value="">Select employee...</option>
+              {employees.map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.firstName} {emp.lastName} ({emp.email})
+                </option>
+              ))}
+            </select>
             {errors.employeeId && (
               <div className="invalid-feedback">{errors.employeeId}</div>
             )}

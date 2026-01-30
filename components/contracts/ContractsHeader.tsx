@@ -3,13 +3,26 @@
 import ContractCreateForm from "./form/ContractCreateForm";
 import EntityHeader from "../layout/EntityHeader";
 
-export default function ContractsHeader() {
+type EmployeeOption = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+type ContractsHeaderProps = {
+  employees: EmployeeOption[];
+};
+
+export default function ContractsHeader({ employees }: ContractsHeaderProps) {
   return (
     <EntityHeader
       title="Contracts"
       newLabel="New Contract"
       addLabel="contract"
-      renderForm={(onCreated) => <ContractCreateForm onCreated={onCreated} />}
+      renderForm={(onCreated) => (
+        <ContractCreateForm onCreated={onCreated} employees={employees} />
+      )}
     />
   );
 }

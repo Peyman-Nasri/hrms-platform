@@ -8,6 +8,7 @@ import TimeReportsList from "@/components/time-reports/TimeReportsList";
 import FilterSelect from "@/components/layout/FilterSection";
 import SearchBar from "@/components/layout/SearchBar";
 import { listEmployees } from "@/server/employees/employees.repo";
+import { listContracts } from "@/server/contracts/contracts.repo";
 
 type TimeReportsPageSearchParams = {
   page?: string;
@@ -62,6 +63,7 @@ export default async function TimeReportsPage({
   const [
     { data: timeReportsRawBase, total, totalPages, page, pageSize },
     employeesRaw,
+    contractsRaw,
   ] = await Promise.all([
     listPaginated(rawPage, rawPageSize, employeeId, q, status),
     listEmployees({
@@ -70,6 +72,13 @@ export default async function TimeReportsPage({
         firstName: true,
         lastName: true,
         email: true,
+      },
+    }),
+    listContracts({
+      select: {
+        id: true,
+        name: true,
+        employeeId: true,
       },
     }),
   ]);
@@ -89,33 +98,16 @@ export default async function TimeReportsPage({
     });
   }
 
-  for (const r of timeReportsRaw) {
-    const empEntry = employeesMap.get(r.employeeId);
-
-    if (!empEntry) {
-      if (!r.employee) continue;
-
-      const fallbackEntry: EmployeeWithContracts = {
-        id: r.employeeId,
-        firstName: r.employee.firstName,
-        lastName: r.employee.lastName,
-        email: r.employee.email,
-        contracts: [],
-      };
-      employeesMap.set(r.employeeId, fallbackEntry);
-    }
-
-    const entry = employeesMap.get(r.employeeId);
+  for (const c of contractsRaw) {
+    const entry = employeesMap.get(c.employeeId);
     if (!entry) continue;
 
-    if (r.contract) {
-      const exists = entry.contracts.some((c) => c.id === r.contract!.id);
-      if (!exists) {
-        entry.contracts.push({
-          id: r.contract.id,
-          name: r.contract.name,
-        });
-      }
+    const exists = entry.contracts.some((k) => k.id === c.id);
+    if (!exists) {
+      entry.contracts.push({
+        id: c.id,
+        name: c.name,
+      });
     }
   }
 

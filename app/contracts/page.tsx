@@ -6,6 +6,7 @@ import FilterSelect from "@/components/layout/FilterSection";
 import SearchBar from "@/components/layout/SearchBar";
 import ContractsHeader from "@/components/contracts/ContractsHeader";
 import ContractsList from "@/components/contracts/ContractsList";
+import { listEmployees } from "@/server/employees/employees.repo";
 
 type ContractsPageSearchParams = {
   page?: string;
@@ -36,13 +37,18 @@ export default async function ContractsPage({
 
   const employeeId = sp.employeeId || undefined;
 
-  const {
-    data: contracts,
-    total,
-    totalPages,
-    page,
-    pageSize,
-  } = await listPaginated(rawPage, rawPageSize, employeeId, q, status);
+  const [{ data: contracts, total, totalPages, page, pageSize }, employees] =
+    await Promise.all([
+      listPaginated(rawPage, rawPageSize, employeeId, q, status),
+      listEmployees({
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+        },
+      }),
+    ]);
 
   const statusOptions = [
     { label: "Open", value: "OPEN" },
@@ -51,7 +57,7 @@ export default async function ContractsPage({
 
   return (
     <div>
-      <ContractsHeader />
+      <ContractsHeader employees={employees} />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 mb-3">
         <div className="flex-grow-1">
