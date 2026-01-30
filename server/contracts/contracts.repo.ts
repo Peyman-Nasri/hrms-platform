@@ -51,6 +51,7 @@ export async function listContractsPaginated({
   if (query) {
     andConditions.push({
       OR: [
+        { name: { contains: query, mode: "insensitive" } },
         { employee: { firstName: { contains: query, mode: "insensitive" } } },
         { employee: { lastName: { contains: query, mode: "insensitive" } } },
         { employee: { email: { contains: query, mode: "insensitive" } } },

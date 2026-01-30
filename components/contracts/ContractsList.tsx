@@ -8,6 +8,7 @@ type ContractEmployee = {
 
 type ContractListItem = {
   id: string;
+  name: string;
   employeeId: string;
   status: "OPEN" | "CLOSED" | string;
   startDate: string | Date;
@@ -88,6 +89,7 @@ export default function ContractsList({
             <thead className="table-light">
               <tr>
                 <th>Employee</th>
+                <th>Contract</th>
                 <th>Status</th>
                 <th>Start</th>
                 <th>End</th>
@@ -115,7 +117,9 @@ export default function ContractsList({
                           </div>
                         )}
                       </td>
-
+                      <td>
+                        <div className="fw-medium">{c.name}</div>
+                      </td>
                       <td>
                         <span
                           className={`badge ${formatStatusBadgeClass(c.status)}`}
@@ -172,6 +176,11 @@ export default function ContractsList({
                   {c.employee?.email && (
                     <div className="text-muted small">{c.employee.email}</div>
                   )}
+
+                  <div className="small">
+                    <span className="text-muted">Contract: </span>
+                    <span className="fw-medium">{c.name}</span>
+                  </div>
 
                   <div className="d-flex align-items-center gap-2 mt-2">
                     <span

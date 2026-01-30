@@ -4,7 +4,8 @@ export const ContractStatusSchema = z.enum(["OPEN", "CLOSED"]);
 
 export const CreateContractSchema = z
   .object({
-    employeeId: z.string().min(1),
+    name: z.string().trim().min(1, "Contract name is required."),
+    employeeId: z.string().min(1, "Employee is required."),
     status: ContractStatusSchema.default("OPEN"),
     startDate: z.coerce.date(),
     endDate: z.coerce.date().optional().nullable(),
@@ -21,6 +22,7 @@ export const CreateContractSchema = z
 
 export const UpdateContractSchema = z
   .object({
+    name: z.string().trim().min(1, "Contract name is required.").optional(),
     status: ContractStatusSchema.optional(),
     startDate: z.coerce.date().optional(),
     endDate: z.coerce.date().optional().nullable(),

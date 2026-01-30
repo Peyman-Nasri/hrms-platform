@@ -19,6 +19,7 @@ export default function ContractCreateForm({
   const { showToast } = useToast();
 
   const [employeeId, setEmployeeId] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<CreateContractInput["status"]>("OPEN");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
@@ -28,6 +29,7 @@ export default function ContractCreateForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   function resetForm() {
+    setName("");
     setEmployeeId("");
     setStatus("OPEN");
     setStartDate("");
@@ -38,6 +40,7 @@ export default function ContractCreateForm({
 
   function validate() {
     const result = CreateContractSchema.safeParse({
+      name,
       employeeId,
       status,
       startDate,
@@ -75,6 +78,7 @@ export default function ContractCreateForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          name,
           employeeId,
           status,
           startDate,
@@ -116,6 +120,25 @@ export default function ContractCreateForm({
         <h5 className="card-title mb-3">Create New Contract</h5>
 
         <form onSubmit={handleSubmit} className="row g-3">
+          <div className="col-md-6">
+            <label className="form-label" htmlFor="name">
+              Contract Name
+            </label>
+            <input
+              id="name"
+              className={`form-control ${errors.name ? "is-invalid" : ""}`}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (errors.name) setErrors((p) => ({ ...p, name: "" }));
+              }}
+              placeholder="e.g. Full-Time Employment"
+            />
+            {errors.name && (
+              <div className="invalid-feedback">{errors.name}</div>
+            )}
+          </div>
+
           <div className="col-md-4">
             <label className="form-label" htmlFor="employeeId">
               Employee ID

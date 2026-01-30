@@ -50,6 +50,7 @@ export async function listPaginated(
       contract: {
         select: {
           id: true,
+          name: true,
           status: true,
           startDate: true,
           endDate: true,
@@ -71,6 +72,12 @@ export async function list() {
       status: true,
       createdAt: true,
       updatedAt: true,
+      contract: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 }

@@ -34,6 +34,7 @@ export async function listPaginated(
     q,
     select: {
       id: true,
+      name: true,
       employeeId: true,
       status: true,
       startDate: true,
@@ -60,6 +61,7 @@ export async function list() {
   return repo.listContracts({
     select: {
       id: true,
+      name: true,
       employeeId: true,
       status: true,
       startDate: true,
@@ -87,6 +89,7 @@ export async function create(input: unknown) {
   const data = CreateContractSchema.parse(input);
 
   return repo.createContract({
+    name: data.name,
     employee: { connect: { id: data.employeeId } },
     status: data.status ?? "OPEN",
     startDate: data.startDate,
@@ -98,6 +101,7 @@ export async function update(id: string, input: unknown) {
   const data = UpdateContractSchema.parse(input);
 
   return repo.updateContract(id, {
+    name: data.name,
     status: data.status,
     startDate: data.startDate,
     endDate: data.endDate === undefined ? undefined : data.endDate,

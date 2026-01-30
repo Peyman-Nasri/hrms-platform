@@ -39,6 +39,7 @@ model Employee {
 
 model Contract {
   id          String         @id @default(cuid())
+  name        String
   employeeId  String
   status      ContractStatus @default(OPEN)
   startDate   DateTime
