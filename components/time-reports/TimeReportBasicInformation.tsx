@@ -9,6 +9,7 @@ type UpdateTimeReportInput = z.infer<typeof UpdateTimeReportSchema>;
 
 type TimeReportContract = {
   id: string;
+  name: string;
   employeeId: string;
   status: "OPEN" | "CLOSED";
   startDate: Date;
@@ -64,7 +65,12 @@ export default function TimeReportBasicInformation({
             <h5 className="card-title mb-0">Contract Information</h5>
           </div>
           <div className="row">
-            <div className="col-12 col-md-4 mb-3">
+            <div className="col-12 col-md-3 mb-3">
+              <strong>Name</strong>
+              <div>{contract?.name ?? "—"}</div>
+            </div>
+
+            <div className="col-12 col-md-3 mb-3">
               <strong>Contract Period</strong>
               <div className="text-muted small">
                 {contract
@@ -75,7 +81,7 @@ export default function TimeReportBasicInformation({
               </div>
             </div>
 
-            <div className="col-12 col-md-4 mb-3">
+            <div className="col-12 col-md-3 mb-3">
               <strong>Status</strong>
               <div>
                 <span
@@ -88,7 +94,7 @@ export default function TimeReportBasicInformation({
               </div>
             </div>
 
-            <div className="col-12 col-md-4 mb-3">
+            <div className="col-12 col-md-3 mb-3">
               <strong>Created</strong>
               <div className="text-muted small">
                 {contract

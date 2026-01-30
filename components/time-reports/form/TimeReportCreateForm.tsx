@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { CreateTimeReportSchema } from "@/server/time-report/time-report.schema";
@@ -8,12 +8,25 @@ import { useToast } from "../../toast/ToastContext";
 
 type CreateTimeReportInput = z.infer<typeof CreateTimeReportSchema>;
 
+type EmployeeWithContracts = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  contracts: {
+    id: string;
+    name: string;
+  }[];
+};
+
 type TimeReportCreateFormProps = {
   onCreated: () => void;
+  employeesWithContracts: EmployeeWithContracts[];
 };
 
 export default function TimeReportCreateForm({
   onCreated,
+  employeesWithContracts,
 }: TimeReportCreateFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
@@ -30,6 +43,13 @@ export default function TimeReportCreateForm({
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const selectedEmployee = useMemo(
+    () => employeesWithContracts.find((e) => e.id === employeeId),
+    [employeesWithContracts, employeeId],
+  );
+
+  const availableContracts = selectedEmployee?.contracts ?? [];
+
   function resetForm() {
     setEmployeeId("");
     setContractId("");
@@ -44,7 +64,7 @@ export default function TimeReportCreateForm({
   function validate() {
     const result = CreateTimeReportSchema.safeParse({
       employeeId,
-      contractId,
+      contractId: contractId || null,
       date,
       hours,
       description: description || null,
@@ -83,7 +103,7 @@ export default function TimeReportCreateForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           employeeId,
-          contractId,
+          contractId: contractId || null,
           date,
           hours,
           description: description || null,
@@ -125,45 +145,71 @@ export default function TimeReportCreateForm({
         <h5 className="card-title mb-3">Create New Time Report</h5>
 
         <form onSubmit={handleSubmit} className="row g-3">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <label className="form-label" htmlFor="employeeId">
-              Employee ID
+              Employee
             </label>
-            <input
+            <select
               id="employeeId"
-              className={`form-control ${
-                errors.employeeId ? "is-invalid" : ""
-              }`}
+              className={`form-select ${errors.employeeId ? "is-invalid" : ""}`}
               value={employeeId}
               onChange={(e) => {
-                setEmployeeId(e.target.value);
-                if (errors.employeeId)
+                const newEmployeeId = e.target.value;
+                setEmployeeId(newEmployeeId);
+                setContractId("");
+                if (errors.employeeId) {
                   setErrors((p) => ({ ...p, employeeId: "" }));
+                }
+                if (errors.contractId) {
+                  setErrors((p) => ({ ...p, contractId: "" }));
+                }
               }}
-              placeholder="Employee ID"
-            />
+            >
+              <option value="">Select employee...</option>
+              {employeesWithContracts.map((emp) => (
+                <option key={emp.id} value={emp.id}>
+                  {emp.firstName} {emp.lastName} ({emp.email})
+                </option>
+              ))}
+            </select>
             {errors.employeeId && (
               <div className="invalid-feedback">{errors.employeeId}</div>
             )}
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-6">
             <label className="form-label" htmlFor="contractId">
-              Contract ID
+              Contract
             </label>
-            <input
+            <select
               id="contractId"
-              className={`form-control ${
-                errors.contractId ? "is-invalid" : ""
-              }`}
+              className={`form-select ${errors.contractId ? "is-invalid" : ""}`}
               value={contractId}
               onChange={(e) => {
                 setContractId(e.target.value);
-                if (errors.contractId)
+                if (errors.contractId) {
                   setErrors((p) => ({ ...p, contractId: "" }));
+                }
               }}
-              placeholder="Contract ID or leave empty"
-            />
+              disabled={!employeeId || availableContracts.length === 0}
+            >
+              {!employeeId && (
+                <option value="">Select an employee first...</option>
+              )}
+              {employeeId && availableContracts.length === 0 && (
+                <option value="">No contracts for this employee</option>
+              )}
+              {employeeId && availableContracts.length > 0 && (
+                <>
+                  <option value="">Select contract...</option>
+                  {availableContracts.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </>
+              )}
+            </select>
             {errors.contractId && (
               <div className="invalid-feedback">{errors.contractId}</div>
             )}
@@ -188,7 +234,7 @@ export default function TimeReportCreateForm({
             )}
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label" htmlFor="hours">
               Hours
             </label>
@@ -211,7 +257,7 @@ export default function TimeReportCreateForm({
             )}
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-4">
             <label className="form-label" htmlFor="status">
               Status
             </label>
@@ -234,7 +280,7 @@ export default function TimeReportCreateForm({
             )}
           </div>
 
-          <div className="col-md-6">
+          <div className="col-md-12">
             <label className="form-label" htmlFor="description">
               Description (optional)
             </label>

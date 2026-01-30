@@ -1,12 +1,13 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+import { Prisma } from "@prisma/client";
 import { listPaginated } from "@/server/time-report/time-report.service";
 import TimeReportsHeader from "@/components/time-reports/TimeReportsHeader";
 import TimeReportsList from "@/components/time-reports/TimeReportsList";
 import FilterSelect from "@/components/layout/FilterSection";
-import { Prisma } from "@prisma/client";
 import SearchBar from "@/components/layout/SearchBar";
+import { listEmployees } from "@/server/employees/employees.repo";
 
 type TimeReportsPageSearchParams = {
   page?: string;
@@ -19,6 +20,24 @@ type TimeReportsPageSearchParams = {
 type TimeReportsPageProps = {
   searchParams: Promise<TimeReportsPageSearchParams>;
 };
+
+type EmployeeWithContracts = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  contracts: {
+    id: string;
+    name: string;
+  }[];
+};
+
+type TimeReportWithEmployeeAndContract = Prisma.TimeReportGetPayload<{
+  include: {
+    employee: true;
+    contract: true;
+  };
+}>;
 
 export default async function TimeReportsPage({
   searchParams,
@@ -40,13 +59,67 @@ export default async function TimeReportsPage({
 
   const employeeId = sp.employeeId || undefined;
 
-  const {
-    data: timeReportsRaw,
-    total,
-    totalPages,
-    page,
-    pageSize,
-  } = await listPaginated(rawPage, rawPageSize, employeeId, q, status);
+  const [
+    { data: timeReportsRawBase, total, totalPages, page, pageSize },
+    employeesRaw,
+  ] = await Promise.all([
+    listPaginated(rawPage, rawPageSize, employeeId, q, status),
+    listEmployees({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
+    }),
+  ]);
+
+  const timeReportsRaw =
+    timeReportsRawBase as TimeReportWithEmployeeAndContract[];
+
+  const employeesMap = new Map<string, EmployeeWithContracts>();
+
+  for (const e of employeesRaw) {
+    employeesMap.set(e.id, {
+      id: e.id,
+      firstName: e.firstName,
+      lastName: e.lastName,
+      email: e.email,
+      contracts: [],
+    });
+  }
+
+  for (const r of timeReportsRaw) {
+    const empEntry = employeesMap.get(r.employeeId);
+
+    if (!empEntry) {
+      if (!r.employee) continue;
+
+      const fallbackEntry: EmployeeWithContracts = {
+        id: r.employeeId,
+        firstName: r.employee.firstName,
+        lastName: r.employee.lastName,
+        email: r.employee.email,
+        contracts: [],
+      };
+      employeesMap.set(r.employeeId, fallbackEntry);
+    }
+
+    const entry = employeesMap.get(r.employeeId);
+    if (!entry) continue;
+
+    if (r.contract) {
+      const exists = entry.contracts.some((c) => c.id === r.contract!.id);
+      if (!exists) {
+        entry.contracts.push({
+          id: r.contract.id,
+          name: r.contract.name,
+        });
+      }
+    }
+  }
+
+  const employeesWithContracts = Array.from(employeesMap.values());
 
   const timeReports = timeReportsRaw.map((r) => ({
     ...r,
@@ -63,7 +136,7 @@ export default async function TimeReportsPage({
 
   return (
     <div>
-      <TimeReportsHeader />
+      <TimeReportsHeader employeesWithContracts={employeesWithContracts} />
 
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch gap-2 mb-3">
         <div className="flex-grow-1">
