@@ -1,9 +1,5 @@
+import { EmployeeDetailHeaderProps } from "@/types/employees";
 import Link from "next/link";
-
-type EmployeeDetailHeaderProps = {
-  firstName: string;
-  lastName: string;
-};
 
 export default function EmployeeDetailHeader({
   firstName,

@@ -1,20 +1,7 @@
 "use client";
 
+import { FilterSelectProps } from "@/types/layouts";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-type Option = {
-  label: string;
-  value: string;
-};
-
-type FilterSelectProps = {
-  paramKey: string;
-  options: Option[];
-  allowEmpty?: boolean;
-  emptyLabel?: string;
-  className?: string;
-  size?: "sm" | "md";
-};
 
 export default function FilterSelect({
   paramKey,

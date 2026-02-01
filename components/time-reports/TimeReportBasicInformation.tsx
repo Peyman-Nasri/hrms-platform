@@ -1,33 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
-import { UpdateTimeReportSchema } from "@/server/time-report/time-report.schema";
 import TimeReportBasicInformationForm from "./form/TimeReportBasicInformationForm";
-
-type UpdateTimeReportInput = z.infer<typeof UpdateTimeReportSchema>;
-
-type TimeReportContract = {
-  id: string;
-  name: string;
-  employeeId: string;
-  status: "OPEN" | "CLOSED";
-  startDate: Date;
-  endDate: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type TimeReportBasicInformationProps = {
-  id: string;
-  employeeName: string;
-  employeeEmail: string;
-  status: UpdateTimeReportInput["status"];
-  date: Date;
-  hours: number;
-  description?: string | null;
-  contract?: TimeReportContract | null;
-};
+import { TimeReportBasicInformationProps } from "@/types/time-reports";
 
 export default function TimeReportBasicInformation({
   id,

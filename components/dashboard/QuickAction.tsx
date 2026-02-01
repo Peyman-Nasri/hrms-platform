@@ -1,10 +1,5 @@
+import { QuickActionProps } from "@/types/dashboard";
 import Link from "next/link";
-
-type QuickActionProps = {
-  title: string;
-  description: string;
-  href: string;
-};
 
 export default function QuickAction({
   title,

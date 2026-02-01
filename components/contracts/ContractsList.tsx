@@ -1,34 +1,5 @@
 import PaginationSummary from "../layout/PaginationSummary";
-
-type ContractEmployee = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type ContractListItem = {
-  id: string;
-  name: string;
-  employeeId: string;
-  status: "OPEN" | "CLOSED" | string;
-  startDate: string | Date;
-  endDate?: string | Date | null;
-  createdAt: string | Date;
-  employee?: ContractEmployee | null;
-  _count?: {
-    timeReports: number;
-  };
-};
-
-type ContractsListProps = {
-  contracts: ContractListItem[];
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-  status?: string;
-  employeeId?: string;
-};
+import type { ContractsListProps, ContractEmployee } from "@/types/contracts";
 
 export default function ContractsList({
   contracts,

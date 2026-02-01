@@ -5,33 +5,28 @@ import {
   getEmployeeFilterOptions,
   listPaginated,
 } from "@/server/employees/employees.service";
+
 import EmployeesHeader from "@/components/employees/EmployeesHeader";
 import EmployeesList from "@/components/employees/EmployeesList";
 import SearchBar from "@/components/layout/SearchBar";
 import FilterSelect from "@/components/layout/FilterSection";
 
-type EmployeesPageSearchParams = {
-  page?: string;
-  pageSize?: string;
-  q?: string;
-  status?: string;
-  workLocation?: string;
-};
-
-type EmployeesPageProps = {
-  searchParams: Promise<EmployeesPageSearchParams>;
-};
+import type {
+  EmployeesPageProps,
+  EmployeesPageSearchParams,
+  EmployeeStatusFilter,
+} from "@/types/employees";
 
 export default async function EmployeesPage({
   searchParams,
 }: EmployeesPageProps) {
-  const sp = await searchParams;
+  const sp: EmployeesPageSearchParams = await searchParams;
 
   const rawPage = sp.page ? Number(sp.page) : undefined;
   const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
   const q = sp.q ?? "";
 
-  const statusParam = sp.status;
+  const statusParam = sp.status as EmployeeStatusFilter | undefined;
   const status =
     statusParam === "ACTIVE" || statusParam === "INACTIVE"
       ? statusParam

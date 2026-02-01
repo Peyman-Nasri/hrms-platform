@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { CreateEmployeeSchema } from "@/server/employees/employees.schemas";
 import { useToast } from "../../toast/ToastContext";
-
-type CreateEmployeeInput = z.infer<typeof CreateEmployeeSchema>;
-
-type EmployeeCreateFormProps = {
-  onCreated: () => void;
-};
+import {
+  CreateEmployeeInput,
+  EmployeeCreateFormProps,
+} from "@/types/employees";
 
 export default function EmployeeCreateForm({
   onCreated,

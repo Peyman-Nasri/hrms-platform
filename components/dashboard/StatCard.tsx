@@ -1,7 +1,4 @@
-type StatCardProps = {
-  title: string;
-  value: string | number;
-};
+import { StatCardProps } from "@/types/dashboard";
 
 export default function StatCard({ title, value }: StatCardProps) {
   return (

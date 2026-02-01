@@ -2,27 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { CreateTimeReportSchema } from "@/server/time-report/time-report.schema";
 import { useToast } from "../../toast/ToastContext";
-
-type CreateTimeReportInput = z.infer<typeof CreateTimeReportSchema>;
-
-type EmployeeWithContracts = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  contracts: {
-    id: string;
-    name: string;
-  }[];
-};
-
-type TimeReportCreateFormProps = {
-  onCreated: () => void;
-  employeesWithContracts: EmployeeWithContracts[];
-};
+import {
+  CreateTimeReportInput,
+  TimeReportCreateFormProps,
+} from "@/types/time-reports";
 
 export default function TimeReportCreateForm({
   onCreated,

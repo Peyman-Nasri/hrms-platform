@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-type SearchBarProps = {
-  paramKey?: string;
-  placeholder?: string;
-  debounceMs?: number;
-  className?: string;
-};
+import { SearchBarProps } from "@/types/layouts";
 
 export default function SearchBar({
   paramKey = "q",

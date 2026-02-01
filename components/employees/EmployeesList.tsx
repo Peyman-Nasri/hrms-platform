@@ -1,26 +1,6 @@
 import Link from "next/link";
 import PaginationSummary from "../layout/PaginationSummary";
-
-type EmployeeListItem = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  status: "ACTIVE" | "INACTIVE" | string;
-  workLocation?: string | null;
-  createdAt: string | Date;
-};
-
-type EmployeesListProps = {
-  employees: EmployeeListItem[];
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-  q?: string;
-  status?: "ACTIVE" | "INACTIVE";
-  workLocation?: string;
-};
+import { EmployeesListProps } from "@/types/employees";
 
 export default function EmployeesList({
   employees,

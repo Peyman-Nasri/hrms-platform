@@ -1,33 +1,6 @@
 import Link from "next/link";
 import PaginationSummary from "../layout/PaginationSummary";
-
-type TimeReportEmployee = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type TimeReportListItem = {
-  id: string;
-  employeeId: string;
-  contractId?: string | null;
-  date: string | Date;
-  hours: string | number;
-  description?: string | null;
-  status: "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED" | string;
-  createdAt: string | Date;
-  employee?: TimeReportEmployee | null;
-};
-
-type TimeReportsListProps = {
-  timeReports: TimeReportListItem[];
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-  status?: string;
-  employeeId?: string;
-};
+import { TimeReportsListProps } from "@/types/time-reports";
 
 export default function TimeReportsList({
   timeReports,

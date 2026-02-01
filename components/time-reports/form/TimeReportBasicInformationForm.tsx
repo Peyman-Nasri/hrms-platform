@@ -2,24 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { UpdateTimeReportSchema } from "@/server/time-report/time-report.schema";
 import { useToast } from "../../toast/ToastContext";
-
-type UpdateTimeReportInput = z.infer<typeof UpdateTimeReportSchema>;
-
-type TimeReportBasicInformationFormProps = {
-  id: string;
-  employeeName: string;
-  employeeEmail: string;
-  initialStatus: UpdateTimeReportInput["status"];
-  initialDate: Date;
-  initialHours: number;
-  initialDescription: string;
-  isEditing: boolean;
-  onStartEdit: () => void;
-  onStopEdit: () => void;
-};
+import {
+  TimeReportBasicInformationFormProps,
+  UpdateTimeReportInput,
+} from "@/types/time-reports";
 
 export default function TimeReportBasicInformationForm({
   id,

@@ -1,18 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
-import { UpdateEmployeeBasicSchema } from "@/server/employees/employees.schemas";
 import EmployeeBasicInformationForm from "./form/EmployeeBasicInformationForm";
-
-type UpdateEmployeeBasicInput = z.infer<typeof UpdateEmployeeBasicSchema>;
-
-type EmployeeBasicInformationProps = {
-  id: string;
-  email: string;
-  status: UpdateEmployeeBasicInput["status"];
-  workLocation?: UpdateEmployeeBasicInput["workLocation"] | null;
-};
+import { EmployeeBasicInformationProps } from "@/types/employees";
 
 export default function EmployeeBasicInformation({
   id,

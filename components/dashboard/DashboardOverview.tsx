@@ -1,11 +1,6 @@
 import StatCard from "@/components/dashboard/StatCard";
 import QuickAction from "@/components/dashboard/QuickAction";
-
-type DashboardOverviewProps = {
-  totalEmployees: number;
-  activeEmployees: number;
-  openContracts: number;
-};
+import type { DashboardOverviewProps } from "@/types/dashboard";
 
 export default function DashboardOverview({
   totalEmployees,

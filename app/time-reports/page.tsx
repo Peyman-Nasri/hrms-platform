@@ -2,54 +2,34 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { Prisma } from "@prisma/client";
+
 import { listPaginated } from "@/server/time-report/time-report.service";
+import { listEmployees } from "@/server/employees/employees.repo";
+import { listContracts } from "@/server/contracts/contracts.repo";
+
 import TimeReportsHeader from "@/components/time-reports/TimeReportsHeader";
 import TimeReportsList from "@/components/time-reports/TimeReportsList";
 import FilterSelect from "@/components/layout/FilterSection";
 import SearchBar from "@/components/layout/SearchBar";
-import { listEmployees } from "@/server/employees/employees.repo";
-import { listContracts } from "@/server/contracts/contracts.repo";
 
-type TimeReportsPageSearchParams = {
-  page?: string;
-  pageSize?: string;
-  status?: string;
-  employeeId?: string;
-  q?: string;
-};
-
-type TimeReportsPageProps = {
-  searchParams: Promise<TimeReportsPageSearchParams>;
-};
-
-type EmployeeWithContracts = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  contracts: {
-    id: string;
-    name: string;
-  }[];
-};
-
-type TimeReportWithEmployeeAndContract = Prisma.TimeReportGetPayload<{
-  include: {
-    employee: true;
-    contract: true;
-  };
-}>;
+import type {
+  TimeReportsPageProps,
+  TimeReportsPageSearchParams,
+  EmployeeWithContracts,
+  TimeReportWithEmployeeAndContract,
+  TimeReportStatusFilter,
+} from "@/types/time-reports";
 
 export default async function TimeReportsPage({
   searchParams,
 }: TimeReportsPageProps) {
-  const sp = await searchParams;
+  const sp: TimeReportsPageSearchParams = await searchParams;
 
   const rawPage = sp.page ? Number(sp.page) : undefined;
   const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
   const q = sp.q ?? "";
 
-  const statusParam = sp.status;
+  const statusParam = sp.status as TimeReportStatusFilter | undefined;
   const status =
     statusParam === "DRAFT" ||
     statusParam === "SUBMITTED" ||

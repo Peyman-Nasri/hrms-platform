@@ -2,21 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { UpdateEmployeeBasicSchema } from "@/server/employees/employees.schemas";
 import { useToast } from "../../toast/ToastContext";
-
-type UpdateEmployeeBasicInput = z.infer<typeof UpdateEmployeeBasicSchema>;
-
-type EmployeeBasicInformationFormProps = {
-  id: string;
-  email: string;
-  initialStatus: UpdateEmployeeBasicInput["status"];
-  initialWorkLocation?: UpdateEmployeeBasicInput["workLocation"] | null;
-  isEditing: boolean;
-  onStartEdit: () => void;
-  onStopEdit: () => void;
-};
+import {
+  EmployeeBasicInformationFormProps,
+  UpdateEmployeeBasicInput,
+} from "@/types/employees";
 
 export default function EmployeeBasicInformationForm({
   id,

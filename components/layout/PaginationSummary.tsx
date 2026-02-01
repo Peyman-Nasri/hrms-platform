@@ -1,15 +1,6 @@
 import { getPaginationBounds } from "@/app/lib/pagination";
+import { PaginationSummaryProps } from "@/types/layouts";
 import Link from "next/link";
-
-type PaginationSummaryProps = {
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-  makeHref: (page: number) => string;
-  itemLabel?: string;
-  showSummary?: boolean;
-};
 
 export default function PaginationSummary({
   page,

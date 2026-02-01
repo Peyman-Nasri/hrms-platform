@@ -2,17 +2,7 @@
 
 import ContractCreateForm from "./form/ContractCreateForm";
 import EntityHeader from "../layout/EntityHeader";
-
-type EmployeeOption = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type ContractsHeaderProps = {
-  employees: EmployeeOption[];
-};
+import type { ContractsHeaderProps } from "@/types/contracts";
 
 export default function ContractsHeader({ employees }: ContractsHeaderProps) {
   return (

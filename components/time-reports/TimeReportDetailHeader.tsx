@@ -1,8 +1,5 @@
+import { TimeReportDetailHeaderProps } from "@/types/time-reports";
 import Link from "next/link";
-
-type TimeReportDetailHeaderProps = {
-  employeeName: string;
-};
 
 export default function TimeReportDetailHeader({
   employeeName,

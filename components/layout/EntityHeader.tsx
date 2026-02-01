@@ -1,13 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-
-type EntityHeaderProps = {
-  title: string;
-  newLabel: string;
-  addLabel: string;
-  renderForm: (onCreated: () => void) => ReactNode;
-};
+import { EntityHeaderProps } from "@/types/layouts";
+import { useState } from "react";
 
 export default function EntityHeader({
   title,

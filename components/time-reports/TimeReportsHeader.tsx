@@ -2,21 +2,7 @@
 
 import TimeReportCreateForm from "./form/TimeReportCreateForm";
 import EntityHeader from "../layout/EntityHeader";
-
-type EmployeeWithContracts = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  contracts: {
-    id: string;
-    name: string;
-  }[];
-};
-
-type TimeReportsHeaderProps = {
-  employeesWithContracts: EmployeeWithContracts[];
-};
+import { TimeReportsHeaderProps } from "@/types/time-reports";
 
 export default function TimeReportsHeader({
   employeesWithContracts,

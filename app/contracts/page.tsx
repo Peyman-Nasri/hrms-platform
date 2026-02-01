@@ -2,34 +2,29 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { listPaginated } from "@/server/contracts/contracts.service";
+import { listEmployees } from "@/server/employees/employees.repo";
+
 import FilterSelect from "@/components/layout/FilterSection";
 import SearchBar from "@/components/layout/SearchBar";
 import ContractsHeader from "@/components/contracts/ContractsHeader";
 import ContractsList from "@/components/contracts/ContractsList";
-import { listEmployees } from "@/server/employees/employees.repo";
 
-type ContractsPageSearchParams = {
-  page?: string;
-  pageSize?: string;
-  status?: string;
-  employeeId?: string;
-  q?: string;
-};
-
-type ContractsPageProps = {
-  searchParams: Promise<ContractsPageSearchParams>;
-};
+import type {
+  ContractsPageProps,
+  ContractsPageSearchParams,
+  ContractStatusFilter,
+} from "@/types/contracts";
 
 export default async function ContractsPage({
   searchParams,
 }: ContractsPageProps) {
-  const sp = await searchParams;
+  const sp: ContractsPageSearchParams = await searchParams;
 
   const rawPage = sp.page ? Number(sp.page) : undefined;
   const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
   const q = sp.q ?? "";
 
-  const statusParam = sp.status;
+  const statusParam = sp.status as ContractStatusFilter | undefined;
   const status =
     statusParam === "OPEN" || statusParam === "CLOSED"
       ? statusParam

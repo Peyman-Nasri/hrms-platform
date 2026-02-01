@@ -1,10 +1,6 @@
 "use client";
 
-type LogoutConfirmModalProps = {
-  show: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-};
+import { LogoutConfirmModalProps } from "@/types/layouts";
 
 export default function LogoutConfirmModal({
   show,

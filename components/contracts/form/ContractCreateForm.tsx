@@ -2,23 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import { CreateContractSchema } from "@/server/contracts/contracts.schemas";
 import { useToast } from "../../toast/ToastContext";
-
-type CreateContractInput = z.infer<typeof CreateContractSchema>;
-
-type EmployeeOption = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type ContractCreateFormProps = {
-  onCreated: () => void;
-  employees: EmployeeOption[];
-};
+import type {
+  ContractCreateFormProps,
+  CreateContractInput,
+} from "@/types/contracts";
 
 export default function ContractCreateForm({
   onCreated,
