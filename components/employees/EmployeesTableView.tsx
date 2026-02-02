@@ -1,9 +1,7 @@
 import Link from "next/link";
 import type { EmployeesListProps } from "@/types/employees";
-import {
-  formatDate,
-  formatStatusBadgeClass,
-} from "@/app/utils/employeesListUtils";
+import { formatStatusBadgeClass } from "@/app/utils/employeesListUtils";
+import { formatDate } from "@/app/utils/format";
 
 type Props = {
   employees: EmployeesListProps["employees"];

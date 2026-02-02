@@ -21,11 +21,6 @@ export function buildEmployeesHref(params: {
   return `/employees?${search.toString()}`;
 }
 
-export function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "—";
-  return new Date(value).toLocaleDateString();
-}
-
 export function formatStatusBadgeClass(status: string) {
   return status === "ACTIVE" ? "bg-success" : "bg-secondary";
 }

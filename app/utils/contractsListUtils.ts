@@ -22,11 +22,6 @@ export function buildContractsHref(params: {
   return `/contracts?${search.toString()}`;
 }
 
-export function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "—";
-  return new Date(value).toLocaleDateString();
-}
-
 export function formatEmployeeLabel(
   employee: ContractEmployee | null | undefined,
   fallbackEmployeeId: string,

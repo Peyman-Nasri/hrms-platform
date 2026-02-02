@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { TimeReportsListProps } from "@/types/time-reports";
 import {
-  formatDate,
   formatEmployeeLabel,
   formatHours,
   formatStatusBadgeClass,
 } from "@/app/utils/timeReportsListUtils";
+import { formatDate } from "@/app/utils/format";
 
 type Props = {
   timeReports: TimeReportsListProps["timeReports"];

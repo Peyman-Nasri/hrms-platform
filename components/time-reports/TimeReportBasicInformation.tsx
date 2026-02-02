@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TimeReportBasicInformationForm from "./form/TimeReportBasicInformationForm";
 import { TimeReportBasicInformationProps } from "@/types/time-reports";
+import { formatDate } from "@/app/utils/format";
 
 export default function TimeReportBasicInformation({
   id,
@@ -15,9 +16,6 @@ export default function TimeReportBasicInformation({
   contract,
 }: TimeReportBasicInformationProps) {
   const [isEditing, setIsEditing] = useState(false);
-
-  const formatDate = (value: Date | string | null | undefined) =>
-    value ? new Date(value).toLocaleDateString() : "—";
 
   return (
     <div className="card mb-4">

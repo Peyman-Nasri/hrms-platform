@@ -21,11 +21,6 @@ export function buildTimeReportsHref(params: {
   return `/time-reports?${search.toString()}`;
 }
 
-export function formatDate(value: string | Date | null | undefined) {
-  if (!value) return "—";
-  return new Date(value).toLocaleDateString();
-}
-
 export function formatHours(value: string | number) {
   if (typeof value === "number") return value.toString();
   return value;

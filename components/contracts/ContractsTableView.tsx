@@ -1,9 +1,9 @@
 import {
-  formatDate,
   formatEmployeeLabel,
   formatStatusBadgeClass,
   formatTimeReportsCount,
 } from "@/app/utils/contractsListUtils";
+import { formatDate } from "@/app/utils/format";
 import type { ContractsListProps } from "@/types/contracts";
 
 type ContractsTableViewProps = {
