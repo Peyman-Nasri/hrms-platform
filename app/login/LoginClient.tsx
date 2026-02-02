@@ -18,26 +18,43 @@ export default function LoginClient() {
     setError(null);
     setLoading(true);
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      callbackUrl,
-      redirect: false,
-    });
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl,
+        redirect: false,
+      });
 
-    setLoading(false);
+      if (!res) {
+        setError("Unexpected error. Try again.");
+        setLoading(false);
+        return;
+      }
 
-    if (!res) {
-      setError("Unexpected error. Try again.");
-      return;
+      if (res.error) {
+        setError("Invalid email or password.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = res.url ?? callbackUrl;
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
     }
+  }
 
-    if (res.error) {
-      setError("Invalid email or password.");
-      return;
-    }
-
-    window.location.href = res.url ?? callbackUrl;
+  if (loading) {
+    return (
+      <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+        <div className="text-center">
+          <div className="spinner-border mb-3" role="status" />
+          <div>Signing you in…</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -82,12 +99,8 @@ export default function LoginClient() {
                     <div className="alert alert-danger py-2">{error}</div>
                   )}
 
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100"
-                    disabled={loading}
-                  >
-                    {loading ? "Signing in..." : "Sign In"}
+                  <button type="submit" className="btn btn-primary w-100">
+                    Sign In
                   </button>
                 </form>
 
