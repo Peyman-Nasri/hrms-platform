@@ -10,35 +10,25 @@ import EmployeesHeader from "@/components/employees/EmployeesHeader";
 import EmployeesList from "@/components/employees/EmployeesList";
 import SearchBar from "@/components/layout/SearchBar";
 import FilterSelect from "@/components/layout/FilterSection";
-
-import type {
-  EmployeesPageProps,
-  EmployeesPageSearchParams,
-  EmployeeStatusFilter,
-} from "@/types/employees";
+import type { EmployeesPageProps } from "@/types/employees";
+import {
+  EMPLOYEE_STATUS_OPTIONS,
+  parseEmployeeSearchParams,
+} from "../constants/employees";
 
 export default async function EmployeesPage({
   searchParams,
 }: EmployeesPageProps) {
-  const sp: EmployeesPageSearchParams = await searchParams;
+  const sp = await searchParams;
 
-  const rawPage = sp.page ? Number(sp.page) : undefined;
-  const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
-  const q = sp.q ?? "";
-
-  const statusParam = sp.status as EmployeeStatusFilter | undefined;
-  const status =
-    statusParam === "ACTIVE" || statusParam === "INACTIVE"
-      ? statusParam
-      : undefined;
-
-  const workLocationParam = sp.workLocation ?? "";
+  const { rawPage, rawPageSize, q, status, workLocation } =
+    parseEmployeeSearchParams(sp);
 
   const [
     { data: employees, total, totalPages, page, pageSize },
     filterOptions,
   ] = await Promise.all([
-    listPaginated(rawPage, rawPageSize, q, status, workLocationParam),
+    listPaginated(rawPage, rawPageSize, q, status, workLocation),
     getEmployeeFilterOptions(),
   ]);
 
@@ -59,10 +49,7 @@ export default async function EmployeesPage({
         <div className="d-flex flex-wrap gap-2 justify-content-md-end">
           <FilterSelect
             paramKey="status"
-            options={[
-              { label: "Active", value: "ACTIVE" },
-              { label: "Inactive", value: "INACTIVE" },
-            ]}
+            options={EMPLOYEE_STATUS_OPTIONS}
             emptyLabel="All Statuses"
             allowEmpty
           />
@@ -84,7 +71,7 @@ export default async function EmployeesPage({
         totalPages={totalPages}
         q={q}
         status={status}
-        workLocation={workLocationParam}
+        workLocation={workLocation}
       />
     </div>
   );

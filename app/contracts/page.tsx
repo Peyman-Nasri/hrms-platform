@@ -8,29 +8,20 @@ import FilterSelect from "@/components/layout/FilterSection";
 import SearchBar from "@/components/layout/SearchBar";
 import ContractsHeader from "@/components/contracts/ContractsHeader";
 import ContractsList from "@/components/contracts/ContractsList";
+import {
+  CONTRACT_STATUS_OPTIONS,
+  parseContractSearchParams,
+} from "../constants/contracts";
 
-import type {
-  ContractsPageProps,
-  ContractsPageSearchParams,
-  ContractStatusFilter,
-} from "@/types/contracts";
+import type { ContractsPageProps } from "@/types/contracts";
 
 export default async function ContractsPage({
   searchParams,
 }: ContractsPageProps) {
-  const sp: ContractsPageSearchParams = await searchParams;
+  const sp = await searchParams;
 
-  const rawPage = sp.page ? Number(sp.page) : undefined;
-  const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
-  const q = sp.q ?? "";
-
-  const statusParam = sp.status as ContractStatusFilter | undefined;
-  const status =
-    statusParam === "OPEN" || statusParam === "CLOSED"
-      ? statusParam
-      : undefined;
-
-  const employeeId = sp.employeeId || undefined;
+  const { rawPage, rawPageSize, q, status, employeeId } =
+    parseContractSearchParams(sp);
 
   const [{ data: contracts, total, totalPages, page, pageSize }, employees] =
     await Promise.all([
@@ -45,11 +36,6 @@ export default async function ContractsPage({
       }),
     ]);
 
-  const statusOptions = [
-    { label: "Open", value: "OPEN" },
-    { label: "Closed", value: "CLOSED" },
-  ];
-
   return (
     <div>
       <ContractsHeader employees={employees} />
@@ -62,7 +48,7 @@ export default async function ContractsPage({
         <div className="d-flex flex-wrap gap-2 justify-content-md-end">
           <FilterSelect
             paramKey="status"
-            options={statusOptions}
+            options={CONTRACT_STATUS_OPTIONS}
             emptyLabel="All Statuses"
             allowEmpty
           />

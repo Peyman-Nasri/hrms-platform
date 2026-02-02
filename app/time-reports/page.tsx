@@ -14,31 +14,21 @@ import SearchBar from "@/components/layout/SearchBar";
 
 import type {
   TimeReportsPageProps,
-  TimeReportsPageSearchParams,
   EmployeeWithContracts,
   TimeReportWithEmployeeAndContract,
-  TimeReportStatusFilter,
 } from "@/types/time-reports";
+import {
+  parseTimeReportsSearchParams,
+  TIME_REPORT_STATUS_OPTIONS,
+} from "../constants/time-reports";
 
 export default async function TimeReportsPage({
   searchParams,
 }: TimeReportsPageProps) {
-  const sp: TimeReportsPageSearchParams = await searchParams;
+  const sp = await searchParams;
 
-  const rawPage = sp.page ? Number(sp.page) : undefined;
-  const rawPageSize = sp.pageSize ? Number(sp.pageSize) : undefined;
-  const q = sp.q ?? "";
-
-  const statusParam = sp.status as TimeReportStatusFilter | undefined;
-  const status =
-    statusParam === "DRAFT" ||
-    statusParam === "SUBMITTED" ||
-    statusParam === "APPROVED" ||
-    statusParam === "REJECTED"
-      ? statusParam
-      : undefined;
-
-  const employeeId = sp.employeeId || undefined;
+  const { rawPage, rawPageSize, q, status, employeeId } =
+    parseTimeReportsSearchParams(sp);
 
   const [
     { data: timeReportsRawBase, total, totalPages, page, pageSize },
@@ -99,13 +89,6 @@ export default async function TimeReportsPage({
       r.hours instanceof Prisma.Decimal ? r.hours.toNumber() : Number(r.hours),
   }));
 
-  const statusOptions = [
-    { label: "Draft", value: "DRAFT" },
-    { label: "Submitted", value: "SUBMITTED" },
-    { label: "Approved", value: "APPROVED" },
-    { label: "Rejected", value: "REJECTED" },
-  ];
-
   return (
     <div>
       <TimeReportsHeader employeesWithContracts={employeesWithContracts} />
@@ -118,7 +101,7 @@ export default async function TimeReportsPage({
         <div className="d-flex flex-wrap gap-2 justify-content-md-end">
           <FilterSelect
             paramKey="status"
-            options={statusOptions}
+            options={TIME_REPORT_STATUS_OPTIONS}
             emptyLabel="All Statuses"
             allowEmpty
           />

@@ -1,4 +1,4 @@
-import { normalizePage, normalizePageSize } from "@/app/lib/pagination";
+import { normalizePage, normalizePageSize } from "@/app/utils/pagination";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 

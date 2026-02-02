@@ -1,4 +1,4 @@
-import { getPaginationBounds } from "@/app/lib/pagination";
+import { getPaginationBounds } from "@/app/utils/pagination";
 import { PaginationSummaryProps } from "@/types/layouts";
 import Link from "next/link";
 
