@@ -2,7 +2,7 @@ import {
   formatEmployeeLabel,
   formatStatusBadgeClass,
   formatTimeReportsCount,
-} from "@/app/utils/contractsListUtils";
+} from "@/app/utils/contracts";
 import { formatDate } from "@/app/utils/format";
 import type { ContractsListProps } from "@/types/contracts";
 

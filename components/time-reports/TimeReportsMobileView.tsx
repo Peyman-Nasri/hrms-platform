@@ -4,7 +4,7 @@ import {
   formatEmployeeLabel,
   formatHours,
   formatStatusBadgeClass,
-} from "@/app/utils/timeReportsListUtils";
+} from "@/app/utils/time-reports";
 import { formatDate } from "@/app/utils/format";
 
 type Props = {

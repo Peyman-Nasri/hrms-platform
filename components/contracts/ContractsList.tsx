@@ -3,7 +3,7 @@ import type { ContractsListProps } from "@/types/contracts";
 
 import { ContractsTableView } from "./ContractsTableView";
 import { ContractsMobileView } from "./ContractsMobileView";
-import { buildContractsHref } from "@/app/utils/contractsListUtils";
+import { buildContractsHref } from "@/app/utils/contracts";
 
 export default function ContractsList({
   contracts,

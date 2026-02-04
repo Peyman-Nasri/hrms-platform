@@ -3,7 +3,7 @@ import type { EmployeesListProps } from "@/types/employees";
 
 import { EmployeesTableView } from "./EmployeesTableView";
 import { EmployeesMobileView } from "./EmployeesMobileView";
-import { buildEmployeesHref } from "@/app/utils/employeesListUtils";
+import { buildEmployeesHref } from "@/app/utils/employees";
 
 export default function EmployeesList({
   employees,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { EmployeesListProps } from "@/types/employees";
-import { formatStatusBadgeClass } from "@/app/utils/employeesListUtils";
+import { formatStatusBadgeClass } from "@/app/utils/employees";
 import { formatDate } from "@/app/utils/format";
 
 type Props = {

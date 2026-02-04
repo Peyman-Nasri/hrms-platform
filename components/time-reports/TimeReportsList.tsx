@@ -3,7 +3,7 @@ import type { TimeReportsListProps } from "@/types/time-reports";
 
 import { TimeReportsTableView } from "./TimeReportsTableView";
 import { TimeReportsMobileView } from "./TimeReportsMobileView";
-import { buildTimeReportsHref } from "@/app/utils/timeReportsListUtils";
+import { buildTimeReportsHref } from "@/app/utils/time-reports";
 
 export default function TimeReportsList({
   timeReports,
