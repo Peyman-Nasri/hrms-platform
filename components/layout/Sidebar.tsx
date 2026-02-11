@@ -30,8 +30,8 @@ export default function Sidebar() {
 
   const dashboardActive = pathname === "/";
   const employeesActive = pathname.startsWith("/employees");
-  const timeReportsActive = pathname.startsWith("/reports/time");
-  const salaryReportsActive = pathname.startsWith("/reports/salary");
+  const timeReportsActive = pathname.startsWith("/time-reports");
+  const contractReportsActive = pathname.startsWith("/contracts");
 
   if (status === "unauthenticated" || pathname === "/login") {
     return null;
@@ -104,11 +104,12 @@ export default function Sidebar() {
             <i className="bi bi-people fs-5" />
             {!collapsed && <span>Employees</span>}
           </Link>
+
           <Link
             href="/time-reports"
-            className={`${styles.link} ${
-              timeReportsActive ? styles.active : ""
-            } ${collapsed ? styles.linkCollapsed : ""}`}
+            className={`${styles.link} ${timeReportsActive ? styles.active : ""} ${
+              collapsed ? styles.linkCollapsed : ""
+            }`}
             title="Time Reports"
           >
             <i className="bi bi-clock-history fs-5" />
@@ -118,7 +119,7 @@ export default function Sidebar() {
           <Link
             href="/contracts"
             className={`${styles.link} ${
-              salaryReportsActive ? styles.active : ""
+              contractReportsActive ? styles.active : ""
             } ${collapsed ? styles.linkCollapsed : ""}`}
             title="Contract Reports"
           >
