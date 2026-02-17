@@ -1,7 +1,7 @@
 "use client";
 
+import EntityHeader from "@/components/shared/EntityHeader";
 import ContractCreateForm from "./form/ContractCreateForm";
-import EntityHeader from "../layout/EntityHeader";
 import type { ContractsHeaderProps } from "@/types/contracts";
 
 export default function ContractsHeader({ employees }: ContractsHeaderProps) {

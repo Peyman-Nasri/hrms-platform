@@ -1,5 +1,5 @@
-import StatCard from "@/components/dashboard/StatCard";
-import QuickAction from "@/components/dashboard/QuickAction";
+import StatCard from "@/components/features/dashboard/StatCard";
+import QuickAction from "@/components/features/dashboard/QuickAction";
 import type { DashboardOverviewProps } from "@/types/dashboard";
 
 export default function DashboardOverview({

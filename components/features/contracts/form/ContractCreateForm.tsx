@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateContractSchema } from "@/server/contracts/contracts.schemas";
-import { useToast } from "../../toast/ToastContext";
 import type {
   ContractCreateFormProps,
   CreateContractInput,
 } from "@/types/contracts";
+import { useToast } from "@/components/toast/ToastContext";
 
 export default function ContractCreateForm({
   onCreated,

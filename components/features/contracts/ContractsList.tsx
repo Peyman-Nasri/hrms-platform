@@ -1,6 +1,5 @@
-import PaginationSummary from "../layout/PaginationSummary";
 import type { ContractsListProps } from "@/types/contracts";
-
+import PaginationSummary from "@/components/shared/PaginationSummary";
 import { ContractsTableView } from "./ContractsTableView";
 import { ContractsMobileView } from "./ContractsMobileView";
 import { buildContractsHref } from "@/app/utils/contracts";

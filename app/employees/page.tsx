@@ -6,10 +6,10 @@ import {
   listPaginated,
 } from "@/server/employees/employees.service";
 
-import EmployeesHeader from "@/components/employees/EmployeesHeader";
-import EmployeesList from "@/components/employees/EmployeesList";
-import SearchBar from "@/components/layout/SearchBar";
-import FilterSelect from "@/components/layout/FilterSection";
+import EmployeesHeader from "@/components/features/employees/EmployeesHeader";
+import EmployeesList from "@/components/features/employees/EmployeesList";
+import SearchBar from "@/components/shared/SearchBar";
+import FilterSelect from "@/components/shared/FilterSection";
 import type { EmployeesPageProps } from "@/types/employees";
 import {
   EMPLOYEE_STATUS_OPTIONS,

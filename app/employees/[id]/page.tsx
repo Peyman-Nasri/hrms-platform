@@ -3,8 +3,8 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { getById } from "@/server/employees/employees.service";
-import EmployeeDetailHeader from "@/components/employees/EmployeeDetailHeader";
-import EmployeeBasicInformation from "@/components/employees/EmployeeBasicInformation";
+import EmployeeDetailHeader from "@/components/features/employees/EmployeeDetailHeader";
+import EmployeeBasicInformation from "@/components/features/employees/EmployeeBasicInformation";
 
 type Params = {
   id: string;

@@ -3,11 +3,11 @@ export const dynamic = "force-dynamic";
 
 import { listPaginated } from "@/server/contracts/contracts.service";
 import { listEmployees } from "@/server/employees/employees.repo";
+import ContractsHeader from "@/components/features/contracts/ContractsHeader";
+import ContractsList from "@/components/features/contracts/ContractsList";
+import FilterSelect from "@/components/shared/FilterSection";
+import SearchBar from "@/components/shared/SearchBar";
 
-import FilterSelect from "@/components/layout/FilterSection";
-import SearchBar from "@/components/layout/SearchBar";
-import ContractsHeader from "@/components/contracts/ContractsHeader";
-import ContractsList from "@/components/contracts/ContractsList";
 import {
   CONTRACT_STATUS_OPTIONS,
   parseContractSearchParams,

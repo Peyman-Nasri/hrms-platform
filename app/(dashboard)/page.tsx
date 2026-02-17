@@ -2,8 +2,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { getDashboardStats } from "@/server/dashboard/dashboard.service";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import DashboardOverview from "@/components/dashboard/DashboardOverview";
+import DashboardHeader from "@/components/features/dashboard/DashboardHeader";
+import DashboardOverview from "@/components/features/dashboard/DashboardOverview";
 
 export default async function DashboardPage() {
   const { totalEmployees, activeEmployees, openContracts } =

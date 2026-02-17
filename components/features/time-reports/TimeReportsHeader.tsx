@@ -1,7 +1,7 @@
 "use client";
 
+import EntityHeader from "@/components/shared/EntityHeader";
 import TimeReportCreateForm from "./form/TimeReportCreateForm";
-import EntityHeader from "../layout/EntityHeader";
 import { TimeReportsHeaderProps } from "@/types/time-reports";
 
 export default function TimeReportsHeader({

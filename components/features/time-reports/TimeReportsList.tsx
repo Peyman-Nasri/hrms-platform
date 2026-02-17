@@ -1,9 +1,8 @@
-import PaginationSummary from "../layout/PaginationSummary";
 import type { TimeReportsListProps } from "@/types/time-reports";
-
 import { TimeReportsTableView } from "./TimeReportsTableView";
 import { TimeReportsMobileView } from "./TimeReportsMobileView";
 import { buildTimeReportsHref } from "@/app/utils/time-reports";
+import PaginationSummary from "@/components/shared/PaginationSummary";
 
 export default function TimeReportsList({
   timeReports,

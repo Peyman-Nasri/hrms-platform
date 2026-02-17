@@ -3,11 +3,12 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UpdateEmployeeBasicSchema } from "@/server/employees/employees.schemas";
-import { useToast } from "../../toast/ToastContext";
+
 import {
   EmployeeBasicInformationFormProps,
   UpdateEmployeeBasicInput,
 } from "@/types/employees";
+import { useToast } from "@/components/toast/ToastContext";
 
 export default function EmployeeBasicInformationForm({
   id,

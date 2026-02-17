@@ -7,10 +7,10 @@ import { listPaginated } from "@/server/time-report/time-report.service";
 import { listEmployees } from "@/server/employees/employees.repo";
 import { listContracts } from "@/server/contracts/contracts.repo";
 
-import TimeReportsHeader from "@/components/time-reports/TimeReportsHeader";
-import TimeReportsList from "@/components/time-reports/TimeReportsList";
-import FilterSelect from "@/components/layout/FilterSection";
-import SearchBar from "@/components/layout/SearchBar";
+import TimeReportsHeader from "@/components/features/time-reports/TimeReportsHeader";
+import TimeReportsList from "@/components/features/time-reports/TimeReportsList";
+import FilterSelect from "@/components/shared/FilterSection";
+import SearchBar from "@/components/shared/SearchBar";
 
 import type {
   TimeReportsPageProps,

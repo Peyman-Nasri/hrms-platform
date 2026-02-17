@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateEmployeeSchema } from "@/server/employees/employees.schemas";
-import { useToast } from "../../toast/ToastContext";
+
 import {
   CreateEmployeeInput,
   EmployeeCreateFormProps,
 } from "@/types/employees";
+import { useToast } from "@/components/toast/ToastContext";
 
 export default function EmployeeCreateForm({
   onCreated,

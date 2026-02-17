@@ -1,7 +1,7 @@
 "use client";
 
+import EntityHeader from "@/components/shared/EntityHeader";
 import EmployeeCreateForm from "./form/EmployeeCreateForm";
-import EntityHeader from "../layout/EntityHeader";
 
 export default function EmployeesHeader() {
   return (

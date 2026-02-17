@@ -4,8 +4,8 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getById } from "@/server/time-report/time-report.service";
-import TimeReportDetailHeader from "@/components/time-reports/TimeReportDetailHeader";
-import TimeReportBasicInformation from "@/components/time-reports/TimeReportBasicInformation";
+import TimeReportDetailHeader from "@/components/features/time-reports/TimeReportDetailHeader";
+import TimeReportBasicInformation from "@/components/features/time-reports/TimeReportBasicInformation";
 
 type Params = {
   id: string;
