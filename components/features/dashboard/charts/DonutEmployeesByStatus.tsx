@@ -21,17 +21,10 @@ export default function EmployeeStatusTwoLevelPie({
           <span className="text-muted small">Two-level</span>
         </div>
 
-        <div style={{ height: 260 }}>
+        <div style={{ width: "100%", height: 260, overflow: "hidden" }}>
           <PieChart
-            style={{
-              width: "100%",
-              height: "100%",
-              maxWidth: "500px",
-              maxHeight: "80vh",
-              aspectRatio: 1,
-              margin: "0 auto",
-            }}
             responsive
+            style={{ width: "100%", height: "100%", display: "block" }}
           >
             <Pie
               data={employeeStatusGroupData}
@@ -57,10 +50,6 @@ export default function EmployeeStatusTwoLevelPie({
 
             <Tooltip defaultIndex={defaultIndex} />
           </PieChart>
-        </div>
-
-        <div className="text-muted small mt-2">
-          Inner = Working/Not Working • Outer = detailed statuses
         </div>
       </div>
     </div>
