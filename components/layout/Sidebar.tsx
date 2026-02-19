@@ -80,11 +80,7 @@ export default function Sidebar() {
 
           <button
             type="button"
-            className={
-              collapsed
-                ? "btn p-0 border-0 bg-transparent d-flex align-items-center justify-content-center"
-                : "btn btn-sm btn-outline-secondary rounded-circle"
-            }
+            className="btn p-0 border-0 bg-transparent d-flex align-items-center justify-content-center"
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             style={{ marginLeft: 5 }}
