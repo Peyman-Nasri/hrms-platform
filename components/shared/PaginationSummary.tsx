@@ -42,7 +42,7 @@ export default function PaginationSummary({
               disabled
             >
               <i className="bi bi-chevron-left me-1" />
-              <span className="d-none d-sm-inline">Previous</span>
+              <span className="d-none d-sm-inline">Prev</span>
               <span className="d-inline d-sm-none">Prev</span>
             </button>
           ) : (
@@ -51,7 +51,7 @@ export default function PaginationSummary({
               className="btn btn-outline-secondary btn-sm rounded-0 d-flex align-items-center"
             >
               <i className="bi bi-chevron-left me-1" />
-              <span className="d-none d-sm-inline">Previous</span>
+              <span className="d-none d-sm-inline">Prev</span>
               <span className="d-inline d-sm-none">Prev</span>
             </Link>
           )}
