@@ -48,7 +48,7 @@ export default function LoginClient() {
 
   if (loading) {
     return (
-      <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+      <div className="d-flex align-items-center justify-content-center min-vh-100 bg-body">
         <div className="text-center">
           <div className="spinner-border mb-3" role="status" />
           <div>Signing you in…</div>
@@ -58,7 +58,7 @@ export default function LoginClient() {
   }
 
   return (
-    <div className="d-flex align-items-center min-vh-100 bg-light">
+    <div className="d-flex align-items-center min-vh-100 bg-body">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">

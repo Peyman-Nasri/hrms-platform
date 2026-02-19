@@ -17,7 +17,7 @@ export function ContractsTableView({ contracts }: ContractsTableViewProps) {
     <div className="d-none d-md-block">
       <div className="table-responsive">
         <table className="table table-hover align-middle">
-          <thead className="table-light">
+          <thead>
             <tr>
               <th>Employee</th>
               <th>Contract</th>
@@ -41,7 +41,7 @@ export function ContractsTableView({ contracts }: ContractsTableViewProps) {
                 return (
                   <tr key={c.id}>
                     <td>
-                      <div className="fw-medium">{employeeLabel}</div>
+                      <div className="fw-medium text-body">{employeeLabel}</div>
                       {c.employee?.email && (
                         <div className="text-muted small">
                           {c.employee.email}

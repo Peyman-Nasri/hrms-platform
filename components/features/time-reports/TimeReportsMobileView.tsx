@@ -25,7 +25,7 @@ export function TimeReportsMobileView({ timeReports }: Props) {
               <Link
                 key={r.id}
                 href={`/time-reports/${r.id}`}
-                className="card p-3 text-decoration-none text-dark"
+                className="card p-3 text-decoration-none text-body"
               >
                 <div className="d-flex justify-content-between align-items-center mb-1">
                   <span className="fw-semibold">{employeeLabel}</span>

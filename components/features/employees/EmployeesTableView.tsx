@@ -14,7 +14,7 @@ export function EmployeesTableView({ employees }: Props) {
     <div className="d-none d-md-block">
       <div className="table-responsive">
         <table className="table table-hover align-middle">
-          <thead className="table-light">
+          <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
@@ -31,7 +31,7 @@ export function EmployeesTableView({ employees }: Props) {
                   <td>
                     <Link
                       href={`/employees/${e.id}`}
-                      className="text-decoration-none fw-medium text-dark"
+                      className="text-decoration-none fw-medium text-body"
                     >
                       {e.firstName} {e.lastName}
                     </Link>

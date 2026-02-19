@@ -58,7 +58,7 @@ export default function PaginationSummary({
 
           <button
             type="button"
-            className="btn btn-light btn-sm border-secondary-subtle text-muted rounded-0"
+            className="btn btn-body btn-sm border-secondary-subtle text-muted rounded-0"
             disabled
           >
             Page <strong className="mx-1">{page}</strong> of{" "}
@@ -68,7 +68,7 @@ export default function PaginationSummary({
           {isLast ? (
             <button
               type="button"
-              className="btn btn-light btn-sm border-secondary-subtle text-muted rounded-0"
+              className="btn btn-body btn-sm border-secondary-subtle text-muted rounded-0"
               disabled
             >
               <span className="d-none d-sm-inline">Next</span>

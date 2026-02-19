@@ -14,13 +14,13 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme="dark">
       <body>
         <AuthProvider>
           <ToastProvider>
             <div className="d-flex min-vh-100">
               <Sidebar />
-              <main className="flex-grow-1 p-4 bg-light">{children}</main>
+              <main className="flex-grow-1 p-4 bg-dark">{children}</main>
             </div>
           </ToastProvider>
         </AuthProvider>

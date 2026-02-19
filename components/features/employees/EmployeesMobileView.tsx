@@ -18,7 +18,7 @@ export function EmployeesMobileView({ employees }: Props) {
             <Link
               key={e.id}
               href={`/employees/${e.id}`}
-              className="card p-3 text-decoration-none text-dark"
+              className="card p-3 text-decoration-none text-body"
             >
               <div className="fw-semibold">
                 {e.firstName} {e.lastName}

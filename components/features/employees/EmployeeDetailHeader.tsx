@@ -11,7 +11,7 @@ export default function EmployeeDetailHeader({
       <div className="d-flex d-md-none align-items-center gap-3 mb-3">
         <Link
           href="/employees"
-          className="btn btn-light border btn-sm d-flex align-items-center justify-content-center rounded-circle"
+          className="btn btn-body border btn-sm d-flex align-items-center justify-content-center rounded-circle"
           aria-label="Back to Employees"
           style={{ width: "36px", height: "36px" }}
         >
@@ -29,7 +29,7 @@ export default function EmployeeDetailHeader({
           {firstName} {lastName}
         </h1>
 
-        <Link href="/employees" className="btn btn-light border">
+        <Link href="/employees" className="btn btn-body border">
           ← Back to Employees
         </Link>
       </div>

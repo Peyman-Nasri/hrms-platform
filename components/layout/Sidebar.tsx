@@ -53,7 +53,7 @@ export default function Sidebar() {
   return (
     <>
       <aside
-        className={`border-end bg-white d-flex flex-column ${
+        className={`border-end bg-body d-flex flex-column ${
           collapsed ? styles.sidebarCollapsed : styles.sidebarExpanded
         }`}
       >

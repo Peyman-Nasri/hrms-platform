@@ -18,7 +18,7 @@ export function TimeReportsTableView({ timeReports }: Props) {
     <div className="d-none d-md-block">
       <div className="table-responsive">
         <table className="table table-hover align-middle">
-          <thead className="table-light">
+          <thead>
             <tr>
               <th>Date</th>
               <th>Employee</th>
@@ -41,7 +41,7 @@ export function TimeReportsTableView({ timeReports }: Props) {
                     <td>
                       <Link
                         href={`/time-reports/${r.id}`}
-                        className="text-decoration-none fw-medium text-dark"
+                        className="text-decoration-none fw-medium text-body"
                       >
                         {employeeLabel}
                       </Link>

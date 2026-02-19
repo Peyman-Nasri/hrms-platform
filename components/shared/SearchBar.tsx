@@ -49,7 +49,7 @@ export default function SearchBar({
   return (
     <div className={className}>
       <div className="input-group">
-        <span className="input-group-text bg-white">
+        <span className="input-group-text bg-body">
           <i className="bi bi-search" />
         </span>
 

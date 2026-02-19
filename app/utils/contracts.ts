@@ -35,7 +35,7 @@ export function formatEmployeeLabel(
 export function formatStatusBadgeClass(statusValue: string) {
   if (statusValue === "OPEN") return "bg-success";
   if (statusValue === "CLOSED") return "bg-secondary";
-  return "bg-light text-dark";
+  return "bg-body text-dark";
 }
 
 export function formatTimeReportsCount(count?: number) {
