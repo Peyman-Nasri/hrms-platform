@@ -15,6 +15,7 @@ export default function Sidebar() {
 
   const [collapsed, setCollapsed] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,19 +60,33 @@ export default function Sidebar() {
         }`}
       >
         <div className="p-3 pb-2 d-flex align-items-center justify-content-between">
-          {!collapsed && (
-            <div className="d-flex align-items-center">
-              <i className="bi bi-people-fill me-2 text-primary fs-4" />
-              <span className="fw-bold fs-4">HRMS</span>
-            </div>
-          )}
+          <button
+            type="button"
+            className="btn p-0 border-0 bg-transparent d-flex align-items-center"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-expanded={menuOpen}
+            aria-label="Open HRMS menu"
+          >
+            <i className="bi bi-people-fill me-2 text-primary fs-4" />
+            {!collapsed && <span className="fw-bold fs-4">HRMS</span>}
+            {!collapsed && (
+              <i
+                className={`bi ms-1 small ${
+                  menuOpen ? "bi-caret-up-fill" : "bi-caret-down-fill"
+                }`}
+              />
+            )}
+          </button>
 
           <button
             type="button"
-            className="btn btn-sm btn-outline-secondary rounded-circle"
+            className={
+              collapsed
+                ? "btn p-0 border-0 bg-transparent d-flex align-items-center justify-content-center"
+                : "btn btn-sm btn-outline-secondary rounded-circle"
+            }
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            style={{ marginLeft: 5 }}
           >
             <i
               className={`bi ${
@@ -81,7 +96,25 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {!collapsed && <hr className={styles.sidebarSeparatorFull} />}
+        {menuOpen && (
+          <div className="px-3 pb-2">
+            <div className="mb-2">
+              <ThemeToggle collapsed={collapsed} />
+            </div>
+            <button
+              type="button"
+              className={`btn w-100 d-flex align-items-center gap-2 ${
+                collapsed ? "justify-content-center" : "justify-content-start"
+              } btn-outline-danger`}
+              onClick={handleLogoutClick}
+            >
+              <i className="bi bi-box-arrow-right fs-5" />
+              {!collapsed && <span>Logout</span>}
+            </button>
+          </div>
+        )}
+
+        <hr className={styles.sidebarSeparatorFull} />
 
         <nav className="nav flex-column mt-2 px-2 pb-3 gap-1 flex-grow-1">
           <Link
@@ -128,18 +161,6 @@ export default function Sidebar() {
             {!collapsed && <span>Contract Reports</span>}
           </Link>
         </nav>
-        <div className="p-3 pb-2 d-flex flex-column gap-3">
-          <ThemeToggle collapsed={collapsed} />
-          <button
-            onClick={handleLogoutClick}
-            className={`btn w-100 d-flex align-items-center gap-2 ${
-              collapsed ? "justify-content-center" : "justify-content-start"
-            } btn-outline-danger`}
-          >
-            <i className="bi bi-box-arrow-right fs-5"></i>
-            {!collapsed && <span>Logout</span>}
-          </button>
-        </div>
       </aside>
 
       <LogoutConfirmModal
