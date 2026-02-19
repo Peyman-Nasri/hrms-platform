@@ -87,6 +87,7 @@ export default function Sidebar() {
             }
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            style={{ marginLeft: 5 }}
           >
             <i
               className={`bi ${
