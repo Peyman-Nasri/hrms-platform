@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import AuthProvider from "@/components/auth/AuthProvider";
 import { ToastProvider } from "@/components/toast/ToastContext";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 export const metadata = {
   title: "HRMS Platform",
@@ -14,14 +15,16 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-bs-theme="dark">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <AuthProvider>
           <ToastProvider>
-            <div className="d-flex min-vh-100">
-              <Sidebar />
-              <main className="flex-grow-1 p-4 bg-dark">{children}</main>
-            </div>
+            <ThemeProvider>
+              <div className="d-flex min-vh-100">
+                <Sidebar />
+                <main className="flex-grow-1 p-4 bg-body">{children}</main>
+              </div>
+            </ThemeProvider>
           </ToastProvider>
         </AuthProvider>
       </body>

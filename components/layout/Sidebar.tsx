@@ -7,6 +7,7 @@ import styles from "./Sidebar.module.css";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import LogoutConfirmModal from "../auth/logoutConfirm";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -127,7 +128,8 @@ export default function Sidebar() {
             {!collapsed && <span>Contract Reports</span>}
           </Link>
         </nav>
-        <div className="mt-auto px-2 pb-3">
+        <div className="p-3 pb-2 d-flex flex-column gap-3">
+          <ThemeToggle collapsed={collapsed} />
           <button
             onClick={handleLogoutClick}
             className={`btn w-100 d-flex align-items-center gap-2 ${
