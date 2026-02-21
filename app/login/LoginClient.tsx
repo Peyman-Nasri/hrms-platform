@@ -104,11 +104,17 @@ export default function LoginClient() {
                   </button>
                 </form>
 
-                <p className="text-muted small mt-3 mb-0 text-center">
+                <p className="text-muted small mt-3 mb-0 text-center d-none d-md-block">
                   Effortless HR Operations in One Platform
                   <br />
                   <code>Empowering People</code> /{" "}
                   <code>Enhancing Workplaces</code>
+                </p>
+
+                <p className="text-muted small mt-3 mb-0 text-center d-block d-md-none">
+                  Effortless HR Operations
+                  <br />
+                  <code>Modern HR Platform</code>
                 </p>
               </div>
             </div>
