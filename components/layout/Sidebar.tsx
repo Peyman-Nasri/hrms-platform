@@ -55,8 +55,8 @@ export default function Sidebar() {
   return (
     <>
       <aside
-        className={`border-end bg-body d-flex flex-column ${
-          collapsed ? styles.sidebarCollapsed : styles.sidebarExpanded
+        className={`border-end bg-body d-flex flex-column ${styles.sidebar} ${
+          collapsed ? styles.sidebarCollapsed : ""
         }`}
       >
         <div className="p-3 pb-2 d-flex align-items-center justify-content-between">

@@ -105,9 +105,10 @@ export default function LoginClient() {
                 </form>
 
                 <p className="text-muted small mt-3 mb-0 text-center">
-                  Use these credentials:
+                  Effortless HR Operations in One Platform
                   <br />
-                  <code>admin@email.com</code> / <code>AdminPassword</code>
+                  <code>Empowering People</code> /{" "}
+                  <code>Enhancing Workplaces</code>
                 </p>
               </div>
             </div>

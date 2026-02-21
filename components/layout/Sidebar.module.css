@@ -1,11 +1,12 @@
-.sidebarExpanded {
+.sidebar {
   width: 260px;
-  transition: width 0.2s ease;
+  transition: width 0.32s ease;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .sidebarCollapsed {
   width: 72px;
-  transition: width 0.2s ease;
 }
 
 .link {
@@ -20,6 +21,8 @@
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .link:hover {
