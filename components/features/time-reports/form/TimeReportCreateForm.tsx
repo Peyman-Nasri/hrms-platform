@@ -15,7 +15,7 @@ export default function TimeReportCreateForm({
 }: TimeReportCreateFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
-
+  const currentYear = new Date().getFullYear();
   const [employeeId, setEmployeeId] = useState<string>("");
   const [contractId, setContractId] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -202,18 +202,33 @@ export default function TimeReportCreateForm({
 
           <div className="col-md-4">
             <label className="form-label" htmlFor="date">
-              Date
+              Month
             </label>
-            <input
+            <select
               id="date"
-              type="date"
-              className={`form-control ${errors.date ? "is-invalid" : ""}`}
+              className={`form-select ${errors.date ? "is-invalid" : ""}`}
               value={date}
               onChange={(e) => {
                 setDate(e.target.value);
                 if (errors.date) setErrors((p) => ({ ...p, date: "" }));
               }}
-            />
+            >
+              <option value="">Select month...</option>
+              {Array.from({ length: 12 }).map((_, i) => {
+                const month = String(i + 1).padStart(2, "0");
+                const value = `${currentYear}-${month}`;
+                const label = new Date(currentYear, i).toLocaleString(
+                  undefined,
+                  { month: "long" },
+                );
+
+                return (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                );
+              })}
+            </select>
             {errors.date && (
               <div className="invalid-feedback">{errors.date}</div>
             )}
@@ -228,14 +243,14 @@ export default function TimeReportCreateForm({
               type="number"
               step="0.25"
               min="0"
-              max="24"
+              max="200"
               className={`form-control ${errors.hours ? "is-invalid" : ""}`}
               value={hours}
               onChange={(e) => {
                 setHours(e.target.value);
                 if (errors.hours) setErrors((p) => ({ ...p, hours: "" }));
               }}
-              placeholder="e.g. 8"
+              placeholder="e.g. 144"
             />
             {errors.hours && (
               <div className="invalid-feedback">{errors.hours}</div>

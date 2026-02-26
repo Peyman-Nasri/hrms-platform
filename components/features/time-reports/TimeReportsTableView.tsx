@@ -20,7 +20,7 @@ export function TimeReportsTableView({ timeReports }: Props) {
         <table className="table table-hover align-middle">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Month</th>
               <th>Employee</th>
               <th>Hours</th>
               <th>Status</th>
@@ -36,7 +36,12 @@ export function TimeReportsTableView({ timeReports }: Props) {
 
                 return (
                   <tr key={r.id}>
-                    <td>{formatDate(r.date)}</td>
+                    <td>
+                      {new Date(r.date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                      })}
+                    </td>
 
                     <td>
                       <Link

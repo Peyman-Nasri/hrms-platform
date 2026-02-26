@@ -27,7 +27,7 @@ export default function TimeReportBasicInformationForm({
   const [status, setStatus] =
     useState<UpdateTimeReportInput["status"]>(initialStatus);
   const [date, setDate] = useState<string>(
-    initialDate.toISOString().slice(0, 10),
+    initialDate.toISOString().slice(0, 7),
   );
   const [hours, setHours] = useState<string>(initialHours.toString());
   const [description, setDescription] = useState<string>(initialDescription);
@@ -38,7 +38,7 @@ export default function TimeReportBasicInformationForm({
 
   function resetForm() {
     setStatus(initialStatus);
-    setDate(initialDate.toISOString().slice(0, 10));
+    setDate(initialDate.toISOString().slice(0, 7));
     setHours(initialHours.toString());
     setDescription(initialDescription);
     setErrors({});
@@ -115,7 +115,10 @@ export default function TimeReportBasicInformationForm({
     onStopEdit();
   }
 
-  const formattedDate = new Date(initialDate).toLocaleDateString();
+  const formattedDate = new Date(initialDate).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+  });
 
   const statusBadgeClass =
     status === "APPROVED"
@@ -166,23 +169,34 @@ export default function TimeReportBasicInformationForm({
           </div>
 
           <div className="col-12 col-md-4 mb-3">
-            <strong>Date</strong>
+            <strong>Month</strong>
             <div>
               {isEditing ? (
                 <>
-                  <input
-                    type="date"
-                    className={`form-control form-control-sm ${
-                      errors.date ? "is-invalid" : ""
-                    }`}
+                  <select
+                    id="date"
+                    className={`form-select ${errors.date ? "is-invalid" : ""}`}
                     value={date}
                     onChange={(e) => {
                       setDate(e.target.value);
-                      if (errors.date) {
-                        setErrors((prev) => ({ ...prev, date: "" }));
-                      }
+                      if (errors.date) setErrors((p) => ({ ...p, date: "" }));
                     }}
-                  />
+                  >
+                    <option value="">Select month...</option>
+                    {Array.from({ length: 12 }).map((_, i) => {
+                      const month = String(i + 1).padStart(2, "0");
+                      return (
+                        <option
+                          key={month}
+                          value={`${new Date().getFullYear()}-${month}`}
+                        >
+                          {new Date(0, i).toLocaleString("default", {
+                            month: "long",
+                          })}
+                        </option>
+                      );
+                    })}
+                  </select>
                   {errors.date && (
                     <div className="invalid-feedback">{errors.date}</div>
                   )}
@@ -202,7 +216,7 @@ export default function TimeReportBasicInformationForm({
                     type="number"
                     step="0.25"
                     min="0"
-                    max="24"
+                    max="200"
                     className={`form-control form-control-sm ${
                       errors.hours ? "is-invalid" : ""
                     }`}
@@ -213,7 +227,7 @@ export default function TimeReportBasicInformationForm({
                         setErrors((prev) => ({ ...prev, hours: "" }));
                       }
                     }}
-                    placeholder="e.g. 8"
+                    placeholder="e.g. 144"
                   />
                   {errors.hours && (
                     <div className="invalid-feedback">{errors.hours}</div>

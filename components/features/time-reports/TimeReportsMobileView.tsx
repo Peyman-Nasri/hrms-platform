@@ -29,7 +29,12 @@ export function TimeReportsMobileView({ timeReports }: Props) {
               >
                 <div className="d-flex justify-content-between align-items-center mb-1">
                   <span className="fw-semibold">{employeeLabel}</span>
-                  <span className="text-muted small">{formatDate(r.date)}</span>
+                  <span className="text-muted small">
+                    {new Date(r.date).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                    })}
+                  </span>
                 </div>
 
                 {r.employee?.email && (
